@@ -1,0 +1,6 @@
+import Game.*
+
+
+program RoadRacingPowered{
+	juego.iniciar()
+}
