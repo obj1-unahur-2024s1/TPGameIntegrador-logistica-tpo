@@ -6,8 +6,8 @@ object juego{
 		
 		// Tamaño del juego//
 		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
-		game.width(40) // Resolución 1280 (40*32)
-		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
+		game.width(36) // Resolución 1280 (40*32)
+		game.height(26) // Resolución 864 (Es un poco mas grande que 720)
 		game.title("Road Race Powered") // Nombre temporal
 		game.addVisual(fondo)
 		// Tamaño del juego fin //
