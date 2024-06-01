@@ -6,15 +6,15 @@ object juego{
 		
 		// Tamaño del juego//
 		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
-		game.width(36) // Resolución 1280 (40*32)
-		game.height(26) // Resolución 864 (Es un poco mas grande que 720)
+		game.width(40) // Resolución 1280 (40*32)
+		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
 		game.title("Road Race Powered") // Nombre temporal
-		game.addVisual(fondo)
 		// Tamaño del juego fin //
-		
+
 		// Jugador Inicio //
+		game.addVisual(fondo)
 		game.addVisual(jugador)
-		self.movimientoJugador()
+		self.controlesJugador()
 		// Jugador Fin //
 		
 		
@@ -34,26 +34,18 @@ object juego{
 		game.start()
 	}
 	
-	method movimientoJugador(){
+	method controlesJugador(){
         keyboard.right().onPressDo({jugador.moverDerecha()})
 		keyboard.left().onPressDo({jugador.moverIzquierda()})
 	}
 
 }
 
-/*
- A excepción del jugador y enemigos, todos estos Assets son placeholders, es decir, los usamos como ejemplo para ver que funcionen
- Cuando Victor tenga listo los finales me encargo de reemplazarlos
- */
 
 object fondo{
-	method image() = "Assets/FondoNivel1.jpg"
+	method image() = "Assets/FondoNivel0.jpg"
 	method position() = game.origin()
 }
-
- /* A excepción del jugador y enemigos, todos estos Assets son placeholders, es decir, los usamos como ejemplo para ver que funcionen
- Cuando Victor tenga listo los finales me encargo de reemplazarlos
- */
  
 class Obstaculos {
 	var  property cantCombustibleDisminuido
@@ -72,6 +64,11 @@ class Obstaculos {
 	}
 			*/
 }
+
+
+
+///////// Cosas con la que el jugador puede chocar //////////////
+
 class Grieta inherits Obstaculos{
 	var property position = self.posicionInicial()
 	var property image = "Assets/Grieta.png"
@@ -116,6 +113,8 @@ class ManchaDeCombustible inherits Obstaculos{
 			position = self.posicionInicial()
 	}
 }
+/////////////////////////////////////////////////////////////////////////////
+
 
 object fondo1 {
 	var property image = "Assets/PantallaDeInicio.jpg"
@@ -126,39 +125,23 @@ object fondo2 {
 	var property position = game.at(5,8)
 }
 
+
+
+//////////// Zona de Indicadores ////////////////
+
 object indicadorCombus{
-	var property img = "Assets/bidonVerde.png"
-	const property position = game.center() // Se que no debería ser center, es para ver si se coloca, despues lo coloco bien
 	
-	method cambiarImg() = if(jugador.combust().between(700,1000)){
-		img = "Assets/bidonVerde.png"
-		}
-		else{
-			if(jugador.combust().between(400,699)){
-				img = "Assets/bidonAmarillo.png"
-			}
-			else{img = "Assets/bidonRojo.png"}
-		}
+	const property position = game.at(30,3)
+	var property image = if(jugador.combust().between(700,1000)) "Assets/bidonVerde.png"
+						 else if(jugador.combust().between(400,699)) "Assets/bidonAmarillo.png"
+						 else "Assets/bidonRojo.png"
+	}
 
-}
-
-//object bidonVerde { No debería de ser necesario esto con el method de indicadorcombus
-//	const property image = "Assets/bidonVerde.png"
-//	const property position = game.at(21,3)
-//}
-//object bidonRojo {
-//	const property image = "Assets/bidonRojo.png"
-//	const property  position = game.at(25,3)
-//}
-//object bidonAmarillo {
-//	const property image = "Assets/bidonAmarillo.png"
-//	const property position = game.at(23,3)
-//}
 
 
 object reloj {
 	
-	var tiempo = 0
+	var property tiempo = 0
 	
 	method text() = tiempo.toString()
 	method position() = game.at(21, 28)
@@ -175,7 +158,24 @@ object reloj {
 	}
 }
 
-object gameOver {
-	method text() = "GAME OVER"
-	method position() = game.center()
+
+/*
+////////////// Pensar si dejar o quitar ////////////
+
+object bidonVerde {
+	const property image = "Assets/bidonVerde.png"
+	const property position = game.at(21,3)
 }
+object bidonRojo {
+	const property image = "Assets/bidonRojo.png"
+	const property  position = game.at(25,3)
+}
+object bidonAmarillo {
+	const property image = "Assets/bidonAmarillo.png"
+	const property position = game.at(23,3)
+}
+
+Esto no se si vale la pena, el object indicadorCombus ya se encarga de añadir todo llamando a las imagenes
+Podemos llamarlo con los objetos, pero no se si vale la pena
+
+*/

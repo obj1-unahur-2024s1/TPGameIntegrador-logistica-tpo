@@ -10,7 +10,7 @@ object jugador{
 	var property position = game.at(12,0)
 	
 	method agarrar(cosa){
-		baul.add(cosa)
+		if(baul == [ ]) baul.add(cosa)
 	}
 	
 	method moverDerecha() {
@@ -19,10 +19,27 @@ object jugador{
 	
 	}
 	method moverIzquierda() {
-		const nuevaPosI = 2.max(position.x() - 1)
+		const nuevaPosI = 3.max(position.x() - 1)
 		position = game.at(nuevaPosI, position.y())
 	}
 	
 	
 }
 ////////////// a partir de acá los poderes //////////////
+
+//class poderes{
+//	const listaPoderes = [poderCombus, poderPuntos]
+//	}
+//}
+
+object poderCombust{
+	method activar(){
+		jugador.combust() == 1000
+	}
+}
+
+object poderPuntos{
+	method activar(){
+		reloj.tiempo() == reloj.tiempo() + 1000
+	}
+}
