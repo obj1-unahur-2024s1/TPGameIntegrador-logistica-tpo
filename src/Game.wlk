@@ -174,3 +174,8 @@ object reloj {
 		game.removeTickEvent("tiempo")
 	}
 }
+
+object gameOver {
+	method text() = "GAME OVER"
+	method position() = game.center()
+}
