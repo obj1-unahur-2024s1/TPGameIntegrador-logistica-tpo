@@ -26,7 +26,7 @@ object juego{
 		
 		// Zona de indicadores Inicio//
 		
-		game.addVisual(indicadorCombus) // NO SE AÑADE AAAAAAAAAAAAAAAAAAAAAAAAAAA
+		game.addVisual(indicadorCombus)
 		reloj.iniciar()
 		
 		// Zona de indicadores Fin//
@@ -116,15 +116,6 @@ class ManchaDeCombustible inherits Obstaculos{
 /////////////////////////////////////////////////////////////////////////////
 
 
-object fondo1 {
-	var property image = "Assets/PantallaDeInicio.jpg"
-	var property position = game.at(5,8)
-}
-object fondo2 {
-	var property image = "Assets/SeleccionDeNivel.jpg"
-	var property position = game.at(5,8)
-}
-
 
 
 //////////// Zona de Indicadores ////////////////
@@ -177,5 +168,22 @@ object bidonAmarillo {
 
 Esto no se si vale la pena, el object indicadorCombus ya se encarga de añadir todo llamando a las imagenes
 Podemos llamarlo con los objetos, pero no se si vale la pena
+
+
+
+
+
+object fondo1 {
+	var property image = "Assets/PantallaDeInicio.jpg"
+	var property position = game.center()
+}
+object fondo2 {
+	var property image = "Assets/SeleccionDeNivel.jpg"
+	var property position = game.center()
+}
+
+
+Imagenes de seleccion de fondo, por ahora no hacen falta hasta que se agregue la funcion de elegir nivel
+
 
 */
