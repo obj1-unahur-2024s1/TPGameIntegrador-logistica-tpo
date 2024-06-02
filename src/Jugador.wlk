@@ -13,33 +13,50 @@ object jugador{
 		if(baul == [ ]) baul.add(cosa)
 	}
 	
-	method moverDerecha() {
+	method moverDerecha(){
 		const nuevaPosD = 21.min(position.x() + 1)
 		position = game.at(nuevaPosD, position.y())
 	
 	}
-	method moverIzquierda() {
+	method moverIzquierda(){
 		const nuevaPosI = 3.max(position.x() - 1)
 		position = game.at(nuevaPosI, position.y())
 	}
-	
-	
+	//Interaccion con los poderes//
+	method activarPoder(){
+		if (baul.isEmpty()){
+			game.say(self,"No tengo poderes disponibles")
+		}else{
+			baul.first().activar()
+		}
+	}
 }
 ////////////// a partir de acá los poderes //////////////
 
-//class poderes{
-//	const listaPoderes = [poderCombus, poderPuntos]
-//	}
-//}
-
-object poderCombust{
-	method activar(){
-		jugador.combust() == 1000
+class Poderes{
+	var property position = self.posicionInicial()
+	var property image = "Assets/ObtenerPoder.png"
+	method posicionInicial() = game.at(3,10)
+	method iniciar(){
+		const velocidad = 0
+		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	}
+	method mover(){
+		position = position.down(1)
+		if (position.y() == -1)
+			position = self.posicionInicial()
 	}
 }
 
-object poderPuntos{
+class PoderCombust inherits Poderes{
 	method activar(){
-		reloj.tiempo() == reloj.tiempo() + 1000
+		return jugador.combust(500)
+	}
+}
+
+class PoderPuntos inherits Poderes{
+	override method posicionInicial() = game.at(3,20)
+	method activar(){
+		reloj.tiempo(1000)
 	}
 }

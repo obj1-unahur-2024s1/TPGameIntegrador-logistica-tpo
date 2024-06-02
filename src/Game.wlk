@@ -3,7 +3,6 @@ import Jugador.*
 
 object juego{
 	method iniciar(){
-		
 		// Tamaño del juego//
 		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
 		game.width(40) // Resolución 1280 (40*32)
@@ -18,15 +17,21 @@ object juego{
 		// Jugador Fin //
 		
 		
+		//Poderes//
+		game.addVisual(new PoderPuntos())
+        game.addVisual(new PoderCombust())
+		
+		
+		//Obstaculos//
 		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
         game.addVisual(new AutoEnemigo(cantCombustibleDisminuido=jugador.combust()*0))
         game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
         
       
-		
 		// Zona de indicadores Inicio//
 		
 		game.addVisual(indicadorCombus)
+		game.addVisual(reloj)
 		reloj.iniciar()
 		
 		// Zona de indicadores Fin//
@@ -37,6 +42,9 @@ object juego{
 	method controlesJugador(){
         keyboard.right().onPressDo({jugador.moverDerecha()})
 		keyboard.left().onPressDo({jugador.moverIzquierda()})
+		
+		//interaccion con poderes//
+		keyboard.space().onPressDo({jugador.activarPoder()})
 	}
 
 }
@@ -131,7 +139,6 @@ object indicadorCombus{
 
 
 object reloj {
-	
 	var property tiempo = 0
 	
 	method text() = tiempo.toString()
