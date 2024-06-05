@@ -8,7 +8,7 @@ object jugador{
 	var property combust = 500
 	var property image = "Assets/Jugador.png"
 	var property position = game.at(12,0)
-	const property poderes = [new PoderCombust() , new PoderPuntos() , new PoderProyectil() ]
+	const property poderes = [new PoderCombust() , new PoderPuntos()]
 	
 	method agarrar(cosa){
 		if(baul == [ ]) baul.add(cosa)
@@ -39,10 +39,10 @@ object jugador{
 		self.baul().add(poderes.anyOne())
 	}
 	
-	method disparar(){
-		const proyectil = new Proyectil(position = self.position().up(1))
-		proyectil.avanzar()
-	}
+//	method disparar(){
+//		const proyectil = new Proyectil(position = self.position().up(1))
+//		proyectil.avanzar()
+//	}
 
 }
 ////////////// a partir de acá los poderes //////////////
@@ -69,30 +69,30 @@ class PoderPuntos inherits Poderes{
 
 // Por si hacemos el poder del proyectil
 
-class PoderProyectil inherits Poderes{
-	
-	const property image = "Assets/proyectil.png"
-	
-	var property position 
-	
-
-	override method activar(){
-		jugador.disparar()
-	}
-	
-	method hacerRecorrido(){
-		
-		game.addVisual(self)
-		game.onCollideDo(self,{elem => elem.serImpactado()})
-		game.onTick(500,"avanzar",{self.avanzar()})
-	}
-	method avanzar(){
-		position = position.up(32)
-		}
-
-	
-	method detener(){
-		game.removeTickEvent("avanzar")
-		game.removeVisual(self)
-	}
-}
+//class PoderProyectil inherits Poderes{
+//	
+//	const property image = "Assets/proyectil.png"
+//	
+//	var property position 
+//	
+//
+//	override method activar(){
+//		jugador.disparar()
+//	}
+//	
+//	method hacerRecorrido(){
+//		
+//		game.addVisual(self)
+//		game.onCollideDo(self,{elem => elem.serImpactado()})
+//		game.onTick(500,"avanzar",{self.avanzar()})
+//	}
+//	method avanzar(){
+//		position = position.up(32)
+//		}
+//
+//	
+//	method detener(){
+//		game.removeTickEvent("avanzar")
+//		game.removeVisual(self)
+//	}
+//}
