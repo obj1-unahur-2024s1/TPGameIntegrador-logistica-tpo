@@ -36,6 +36,7 @@ object juego{
 		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
         game.addVisual(new AutoEnemigo())
         game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
+        
 	}
 	
 	method graficosIndicadores(){
@@ -52,32 +53,20 @@ object juego{
 ///////// Cosas con la que el jugador puede chocar //////////////
 class Obstaculos {
 	
-	const property listaPosiciones= [game.at(41,3), game.at(41,5), game.at(41,8) ]
+	const property listaPosiciones= [game.at(23,3), game.at(21,5), game.at(15,8) ]
 	
 	var property position = listaPosiciones.anyOne()
 	
+	// Falta agregar el method que INICIE el ontick, uno que agregue un obstaculo en la pos random de listaPosiciones
+	
+	
 	method movimiento(){
-		game.onTick(1000,"moverObstaculos",{self.MoverObstaculo()})
+		game.onTick(500,"moverObstaculos",{self.MoverObstaculo()})
 	}
 	
 	method MoverObstaculo(){
-		self.position().down(2)
+		position = position.down(2)
 	}
-	
-//	method iniciar(){
-//		const velocidad = 0
-//		const position = listaPosiciones.anyOne()
-//		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-//	}
-//	
-//	method mover(){
-//		
-//		position = position.down(1)
-//		if (position.y() == -1)
-//			position = self.posicionInicial()
-//	}
-//
-//			
 	
 	method chocar(){
 		game.removeVisual(self)
