@@ -3,84 +3,115 @@ import Jugador.*
 
 object juego{
 	method iniciar(){
-		// Tamaño del juego//
-		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
-		game.width(40) // Resolución 1280 (40*32)
-		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
-		game.title("Road Race Powered") // Nombre temporal
-		// Tamaño del juego fin //
-
-		// Jugador Inicio //
-		game.addVisual(fondo)
-		game.addVisual(jugador)
+		self.graficosBase()
 		self.controlesJugador()
-		// Jugador Fin //
-		
-		
-		//Poderes//
-		game.addVisual(new PoderPuntos())
-        game.addVisual(new PoderCombust())
-		
-		
-		//Obstaculos//
-		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
-        game.addVisual(new AutoEnemigo(cantCombustibleDisminuido=jugador.combust()*0))
-        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
-        
-      
-		// Zona de indicadores Inicio//
-		
-		game.addVisual(indicadorCombus)
-		game.addVisual(reloj)
-		reloj.iniciar()
-		
-		// Zona de indicadores Fin//
+        self.obstaculos()
+		self.graficosIndicadores()
 		
 		game.start()
 	}
 	
+	method graficosBase(){
+		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
+		game.width(40) // Resolución 1280 (40*32)
+		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
+		game.title("Road Race Powered") // Nombre temporal
+		game.boardGround("Assets/FondoNivel0.jpg")
+		
+	}
+	
 	method controlesJugador(){
+		game.addVisualCharacter(jugador) // El character es temporal, para probar colisiones
         keyboard.right().onPressDo({jugador.moverDerecha()})
 		keyboard.left().onPressDo({jugador.moverIzquierda()})
 		
 		//interaccion con poderes//
-		keyboard.space().onPressDo({jugador.activarPoder()})
+		keyboard.z().onPressDo({jugador.activarPoder()})
+		// Colisiones
+		game.whenCollideDo(jugador,{elem => elem.chocar() })
 	}
-
+	
+	method obstaculos(){
+		game.addVisual(new ObjetoObtenerPoder())							
+		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
+        game.addVisual(new AutoEnemigo())
+        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
+	}
+	
+	method graficosIndicadores(){
+		game.addVisual(indicadorCombus)
+		game.addVisual(reloj)
+		reloj.iniciar()
+	}
 }
 
 
-object fondo{
-	method image() = "Assets/FondoNivel0.jpg"
-	method position() = game.origin()
-}
+
+// esto ya no es necesario por el gameBoard
+
+//object fondo{ 
+//	method image() = "Assets/FondoNivel0.jpg"
+//	method position() = game.origin()
+//}
  
+ 
+ 
+///////// Cosas con la que el jugador puede chocar //////////////
 class Obstaculos {
-	var  property cantCombustibleDisminuido
+	
+	const listaPosiciones= [game.at(41,3) ]
+
+	// Idea para futuro: Hacer una lista que sea Const property ListaPosiciones = [ ]
+	// Con esto, ponemos varias ubicaciones en esa lista, y para hacer que aparezcan en un lugar
+	// aleatorio de la pantalla superior, usamos un ListaPosiciones().anyOne()
 	
 	
-	/*method posicionInicial() = game.at(3,23)
+	
+	
+	method posicionInicial() = game.at(3,23)
 	method iniciar(){
 		const velocidad = 0
-		position = self.posicionInicial()
+		position = 
 		game.onTick(velocidad,"moverEnemigos",{self.mover()})
 	}
+	
 	method mover(){
 		position = position.down(1)
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
-			*/
+
+			
+	
+	method chocar(){
+		game.removeVisual(self)
+	}
 }
 
 
 
-///////// Cosas con la que el jugador puede chocar //////////////
+
+class AutoEnemigo inherits Obstaculos{
+	
+	var property position = game.at(3,23)
+	var property image = "Assets/enemRojo.png"
+	
+	override method chocar(){
+		game.stop()
+		super()
+	}
+	
+	method serImpactado(){ //Por si hacemos lo del proyectil
+		game.removeVisual(self)
+	}
+}
 
 class Grieta inherits Obstaculos{
-	var property position = self.posicionInicial()
+	var  property cantCombustibleDisminuido = 
+	var property position = game.at(3,20)
 	var property image = "Assets/Grieta.png"
-	method posicionInicial() = game.at(3,15)
+	
+	method posicionInicial() = 
 	method iniciar(){
 		const velocidad = 0
 		position = self.posicionInicial()
@@ -91,25 +122,18 @@ class Grieta inherits Obstaculos{
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
-}
-class AutoEnemigo inherits Obstaculos{
-	var property position = self.posicionInicial()
-	var property image = "Assets/enemRojo.png"
-	method posicionInicial() = game.at(3,23)
-	method iniciar(){
-		const velocidad = 0
-		position = self.posicionInicial()
-		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-	}
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
+	override method chocar(){
+		jugador.combust(-300)
+		super()
+//		jugador.combust() = jugador.combust() * 0.40   Preguntar por que esto no funciona
 	}
 }
+
 class ManchaDeCombustible inherits Obstaculos{
-	var property position = self.posicionInicial()
-	method posicionInicial() = game.at(3,23)
+	var  property cantCombustibleDisminuido = 
+	var property position = game.at(5,23)
+	var property image = "Assets/"
+	
 	method iniciar(){
 		const velocidad = 0
 		position = self.posicionInicial()
@@ -120,7 +144,38 @@ class ManchaDeCombustible inherits Obstaculos{
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
+	
+	override method chocar(){
+		jugador.combust(-200)
+		super()
+//		jugador.combust() = jugador.combust() * 0.80   Preguntar por que esto no funciona
+	}
 }
+
+class ObjetoObtenerPoder inherits Obstaculos{
+	// Acá irían las cosas que al chocarlos, agregan un poder (Temporalmente las cosas rosas)
+	var property position = self.posicionInicial()
+	const property image = "Assets/ObtenerPoder.png"
+	
+	
+	method posicionInicial() = game.at(5,10)
+		method iniciar(){
+		const velocidad = 0
+		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	}
+	method mover(){
+		position = position.down(1)
+		if (position.y() == -1)
+			position = self.posicionInicial()
+			
+			}
+	override method chocar(){
+		if (jugador.baul() == [ ]) jugador.agregarPoder() else game.say(jugador,"Solo puedo tener un poder a la vez")
+		super()
+	}
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -140,9 +195,8 @@ object indicadorCombus{
 
 object reloj {
 	var property tiempo = 0
-	
+	const property position = game.at(30,5)
 	method text() = tiempo.toString()
-	method position() = game.at(21, 28)
 	
 	method pasarTiempo() {
 		tiempo = tiempo +1
@@ -158,27 +212,6 @@ object reloj {
 
 
 /*
-////////////// Pensar si dejar o quitar ////////////
-
-object bidonVerde {
-	const property image = "Assets/bidonVerde.png"
-	const property position = game.at(21,3)
-}
-object bidonRojo {
-	const property image = "Assets/bidonRojo.png"
-	const property  position = game.at(25,3)
-}
-object bidonAmarillo {
-	const property image = "Assets/bidonAmarillo.png"
-	const property position = game.at(23,3)
-}
-
-Esto no se si vale la pena, el object indicadorCombus ya se encarga de añadir todo llamando a las imagenes
-Podemos llamarlo con los objetos, pero no se si vale la pena
-
-
-
-
 
 object fondo1 {
 	var property image = "Assets/PantallaDeInicio.jpg"
@@ -191,6 +224,46 @@ object fondo2 {
 
 
 Imagenes de seleccion de fondo, por ahora no hacen falta hasta que se agregue la funcion de elegir nivel
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+class poderes{
+
+	const poderes = [new PoderCombust() , new PoderPuntos() ]
+	var property position = self.posicionInicial()
+	var property image = "Assets/ObtenerPoder.png"
+	method posicionInicial() = game.at(3,10)
+	method iniciar(){
+		const velocidad = 0
+		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	}
+	method mover(){
+		position = position.down(1)
+		if (position.y() == -1)
+			position = self.posicionInicial()
+	} 
+
+}
+
+Esto lo hizo Brenda, lo guardo acá por las dudas, ya que intento separar la lista de poderes, del objeto que los da
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+
+Notas:
+* 
+* Quizá deberíamos aumentar el tamaño de las casillas a 64 o mas, ya que al tener 32, y el auto al tener una altura de 64
+* la colision no se activa hasta que la mitad del auto choca
+*
+* preguntar por que no se puede restar normalmente los method chocar() 
+* 
+* Las colisones por ahora funcionan todas
+* 
+
 
 
 */

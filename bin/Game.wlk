@@ -3,94 +3,115 @@ import Jugador.*
 
 object juego{
 	method iniciar(){
-		
-		// Tamaño del juego//
-		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
-		game.width(36) // Resolución 1280 (40*32)
-		game.height(26) // Resolución 864 (Es un poco mas grande que 720)
-		game.title("Road Race Powered") // Nombre temporal
-		game.addVisual(fondo)
-		// Tamaño del juego fin //
-		
-		// Jugador Inicio //
-		game.addVisual(jugador)
-		self.movimientoJugador()
-		// Jugador Fin //
-		
-		
-		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
-        game.addVisual(new AutoEnemigo(cantCombustibleDisminuido=jugador.combust()*0))
-        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
-        
-      
-		
-		// Zona de indicadores Inicio//
-		
-		game.addVisual(indicadorCombus) // NO SE AÑADE AAAAAAAAAAAAAAAAAAAAAAAAAAA
-		reloj.iniciar()
-		
-		// Zona de indicadores Fin//
+		self.graficosBase()
+		self.controlesJugador()
+        self.obstaculos()
+		self.graficosIndicadores()
 		
 		game.start()
 	}
 	
-	method movimientoJugador(){
+	method graficosBase(){
+		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
+		game.width(40) // Resolución 1280 (40*32)
+		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
+		game.title("Road Race Powered") // Nombre temporal
+		game.boardGround("Assets/FondoNivel0.jpg")
+		
+	}
+	
+	method controlesJugador(){
+		game.addVisualCharacter(jugador) // El character es temporal, para probar colisiones
         keyboard.right().onPressDo({jugador.moverDerecha()})
 		keyboard.left().onPressDo({jugador.moverIzquierda()})
+		
+		//interaccion con poderes//
+		keyboard.z().onPressDo({jugador.activarPoder()})
+		// Colisiones
+		game.whenCollideDo(jugador,{elem => elem.chocar() })
 	}
-
+	
+	method obstaculos(){
+		game.addVisual(new ObjetoObtenerPoder())							
+		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
+        game.addVisual(new AutoEnemigo())
+        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
+	}
+	
+	method graficosIndicadores(){
+		game.addVisual(indicadorCombus)
+		game.addVisual(reloj)
+		reloj.iniciar()
+	}
 }
 
-/*
- A excepción del jugador y enemigos, todos estos Assets son placeholders, es decir, los usamos como ejemplo para ver que funcionen
- Cuando Victor tenga listo los finales me encargo de reemplazarlos
- */
 
-object fondo{
-	method image() = "Assets/FondoNivel1.jpg"
-	method position() = game.origin()
-}
 
- /* A excepción del jugador y enemigos, todos estos Assets son placeholders, es decir, los usamos como ejemplo para ver que funcionen
- Cuando Victor tenga listo los finales me encargo de reemplazarlos
- */
+// esto ya no es necesario por el gameBoard
+
+//object fondo{ 
+//	method image() = "Assets/FondoNivel0.jpg"
+//	method position() = game.origin()
+//}
  
+ 
+ 
+///////// Cosas con la que el jugador puede chocar //////////////
 class Obstaculos {
-	var  property cantCombustibleDisminuido
+	
+	const listaPosiciones= [game.at(41,3) ]
+
+	// Idea para futuro: Hacer una lista que sea Const property ListaPosiciones = [ ]
+	// Con esto, ponemos varias ubicaciones en esa lista, y para hacer que aparezcan en un lugar
+	// aleatorio de la pantalla superior, usamos un ListaPosiciones().anyOne()
 	
 	
-	/*method posicionInicial() = game.at(3,23)
+	
+	
+	method posicionInicial() = game.at(3,23)
 	method iniciar(){
 		const velocidad = 0
-		position = self.posicionInicial()
+		position = 
 		game.onTick(velocidad,"moverEnemigos",{self.mover()})
 	}
+	
 	method mover(){
 		position = position.down(1)
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
-			*/
-}
-class Grieta inherits Obstaculos{
-	var property position = self.posicionInicial()
-	var property image = "Assets/Grieta.png"
-	method posicionInicial() = game.at(3,15)
-	method iniciar(){
-		const velocidad = 0
-		position = self.posicionInicial()
-		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-	}
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
+
+			
+	
+	method chocar(){
+		game.removeVisual(self)
 	}
 }
+
+
+
+
 class AutoEnemigo inherits Obstaculos{
-	var property position = self.posicionInicial()
+	
+	var property position = game.at(3,23)
 	var property image = "Assets/enemRojo.png"
-	method posicionInicial() = game.at(3,23)
+	
+	override method chocar(){
+		game.stop()
+		super()
+	}
+	
+	method serImpactado(){ //Por si hacemos lo del proyectil
+		game.removeVisual(self)
+	}
+}
+
+class Grieta inherits Obstaculos{
+	var  property cantCombustibleDisminuido = 
+	var property position = game.at(3,20)
+	var property image = "Assets/Grieta.png"
+	
+	method posicionInicial() = 
 	method iniciar(){
 		const velocidad = 0
 		position = self.posicionInicial()
@@ -101,10 +122,18 @@ class AutoEnemigo inherits Obstaculos{
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
+	override method chocar(){
+		jugador.combust(-300)
+		super()
+//		jugador.combust() = jugador.combust() * 0.40   Preguntar por que esto no funciona
+	}
 }
+
 class ManchaDeCombustible inherits Obstaculos{
-	var property position = self.posicionInicial()
-	method posicionInicial() = game.at(3,23)
+	var  property cantCombustibleDisminuido = 
+	var property position = game.at(5,23)
+	var property image = "Assets/"
+	
 	method iniciar(){
 		const velocidad = 0
 		position = self.posicionInicial()
@@ -115,53 +144,59 @@ class ManchaDeCombustible inherits Obstaculos{
 		if (position.y() == -1)
 			position = self.posicionInicial()
 	}
+	
+	override method chocar(){
+		jugador.combust(-200)
+		super()
+//		jugador.combust() = jugador.combust() * 0.80   Preguntar por que esto no funciona
+	}
 }
 
-object fondo1 {
-	var property image = "Assets/PantallaDeInicio.jpg"
-	var property position = game.at(5,8)
+class ObjetoObtenerPoder inherits Obstaculos{
+	// Acá irían las cosas que al chocarlos, agregan un poder (Temporalmente las cosas rosas)
+	var property position = self.posicionInicial()
+	const property image = "Assets/ObtenerPoder.png"
+	
+	
+	method posicionInicial() = game.at(5,10)
+		method iniciar(){
+		const velocidad = 0
+		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	}
+	method mover(){
+		position = position.down(1)
+		if (position.y() == -1)
+			position = self.posicionInicial()
+			
+			}
+	override method chocar(){
+		if (jugador.baul() == [ ]) jugador.agregarPoder() else game.say(jugador,"Solo puedo tener un poder a la vez")
+		super()
+	}
 }
-object fondo2 {
-	var property image = "Assets/SeleccionDeNivel.jpg"
-	var property position = game.at(5,8)
-}
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+
+//////////// Zona de Indicadores ////////////////
 
 object indicadorCombus{
-	var property img = "Assets/bidonVerde.png"
-	const property position = game.center() // Se que no debería ser center, es para ver si se coloca, despues lo coloco bien
 	
-	method cambiarImg() = if(jugador.combust().between(700,1000)){
-		img = "Assets/bidonVerde.png"
-		}
-		else{
-			if(jugador.combust().between(400,699)){
-				img = "Assets/bidonAmarillo.png"
-			}
-			else{img = "Assets/bidonRojo.png"}
-		}
+	const property position = game.at(30,3)
+	var property image = if(jugador.combust().between(700,1000)) "Assets/bidonVerde.png"
+						 else if(jugador.combust().between(400,699)) "Assets/bidonAmarillo.png"
+						 else "Assets/bidonRojo.png"
+	}
 
-}
-
-//object bidonVerde { No debería de ser necesario esto con el method de indicadorcombus
-//	const property image = "Assets/bidonVerde.png"
-//	const property position = game.at(21,3)
-//}
-//object bidonRojo {
-//	const property image = "Assets/bidonRojo.png"
-//	const property  position = game.at(25,3)
-//}
-//object bidonAmarillo {
-//	const property image = "Assets/bidonAmarillo.png"
-//	const property position = game.at(23,3)
-//}
 
 
 object reloj {
-	
-	var tiempo = 0
-	
+	var property tiempo = 0
+	const property position = game.at(30,5)
 	method text() = tiempo.toString()
-	method position() = game.at(21, 28)
 	
 	method pasarTiempo() {
 		tiempo = tiempo +1
@@ -175,7 +210,60 @@ object reloj {
 	}
 }
 
-object gameOver {
-	method text() = "GAME OVER"
-	method position() = game.center()
+
+/*
+
+object fondo1 {
+	var property image = "Assets/PantallaDeInicio.jpg"
+	var property position = game.center()
 }
+object fondo2 {
+	var property image = "Assets/SeleccionDeNivel.jpg"
+	var property position = game.center()
+}
+
+
+Imagenes de seleccion de fondo, por ahora no hacen falta hasta que se agregue la funcion de elegir nivel
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+class poderes{
+
+	const poderes = [new PoderCombust() , new PoderPuntos() ]
+	var property position = self.posicionInicial()
+	var property image = "Assets/ObtenerPoder.png"
+	method posicionInicial() = game.at(3,10)
+	method iniciar(){
+		const velocidad = 0
+		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	}
+	method mover(){
+		position = position.down(1)
+		if (position.y() == -1)
+			position = self.posicionInicial()
+	} 
+
+}
+
+Esto lo hizo Brenda, lo guardo acá por las dudas, ya que intento separar la lista de poderes, del objeto que los da
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+
+Notas:
+* 
+* Quizá deberíamos aumentar el tamaño de las casillas a 64 o mas, ya que al tener 32, y el auto al tener una altura de 64
+* la colision no se activa hasta que la mitad del auto choca
+*
+* preguntar por que no se puede restar normalmente los method chocar() 
+* 
+* Las colisones por ahora funcionan todas
+* 
+
+
+
+*/
