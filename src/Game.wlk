@@ -33,9 +33,9 @@ object juego{
 	
 	method obstaculos(){
 		game.addVisual(new ObjetoObtenerPoder())							
-		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
+		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7, position = 0, image = 0))
         game.addVisual(new AutoEnemigo())
-        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
+        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7 ,position = 0, image = 0))
 	}
 	
 	method graficosIndicadores(){
@@ -60,29 +60,17 @@ object juego{
 class Obstaculos {
 	
 	const listaPosiciones= [game.at(41,3) ]
+	
 
 	// Idea para futuro: Hacer una lista que sea Const property ListaPosiciones = [ ]
 	// Con esto, ponemos varias ubicaciones en esa lista, y para hacer que aparezcan en un lugar
 	// aleatorio de la pantalla superior, usamos un ListaPosiciones().anyOne()
 	
 	
-	
-	
-	method posicionInicial() = game.at(3,23)
-	method iniciar(){
-		const velocidad = 0
-		position = 
-		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-	}
-	
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
-	}
+	method iniciar(){}
+	                       ///Corregir movimientos
+	method mover(){}
 
-			
-	
 	method chocar(){
 		game.removeVisual(self)
 	}
@@ -90,11 +78,9 @@ class Obstaculos {
 
 
 
-
 class AutoEnemigo inherits Obstaculos{
-	
-	var property position = game.at(3,23)
-	var property image = "Assets/enemRojo.png"
+	var property position 
+	var property image 
 	
 	override method chocar(){
 		game.stop()
@@ -107,21 +93,11 @@ class AutoEnemigo inherits Obstaculos{
 }
 
 class Grieta inherits Obstaculos{
-	var  property cantCombustibleDisminuido = 
-	var property position = game.at(3,20)
-	var property image = "Assets/Grieta.png"
+	var property cantCombustibleDisminuido 
+	var property position 
+	var property image 
 	
-	method posicionInicial() = 
-	method iniciar(){
-		const velocidad = 0
-		position = self.posicionInicial()
-		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-	}
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
-	}
+	
 	override method chocar(){
 		jugador.combust(-300)
 		super()
@@ -130,20 +106,9 @@ class Grieta inherits Obstaculos{
 }
 
 class ManchaDeCombustible inherits Obstaculos{
-	var  property cantCombustibleDisminuido = 
-	var property position = game.at(5,23)
-	var property image = "Assets/"
-	
-	method iniciar(){
-		const velocidad = 0
-		position = self.posicionInicial()
-		game.onTick(velocidad,"moverEnemigos",{self.mover()})
-	}
-		method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
-	}
+	var  property cantCombustibleDisminuido = 0
+	var property position 
+	var property image 
 	
 	override method chocar(){
 		jugador.combust(-200)
@@ -154,21 +119,9 @@ class ManchaDeCombustible inherits Obstaculos{
 
 class ObjetoObtenerPoder inherits Obstaculos{
 	// Acá irían las cosas que al chocarlos, agregan un poder (Temporalmente las cosas rosas)
-	var property position = self.posicionInicial()
-	const property image = "Assets/ObtenerPoder.png"
+	var property position 
+	var property image 
 	
-	
-	method posicionInicial() = game.at(5,10)
-		method iniciar(){
-		const velocidad = 0
-		game.onTick(velocidad,"moverPoderes",{self.mover()})
-	}
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
-			
-			}
 	override method chocar(){
 		if (jugador.baul() == [ ]) jugador.agregarPoder() else game.say(jugador,"Solo puedo tener un poder a la vez")
 		super()
