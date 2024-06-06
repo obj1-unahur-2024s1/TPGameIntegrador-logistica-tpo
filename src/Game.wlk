@@ -12,9 +12,9 @@ object juego{
 	}
 	
 	method graficosBase(){
-		game.cellSize(32) // Mejor tamaño para conseguir assets (imagenes)
-		game.width(40) // Resolución 1280 (40*32)
-		game.height(27) // Resolución 864 (Es un poco mas grande que 720)
+		game.cellSize(64) // Lo cambie a 64 para trabajar con assets mas grandes y que no haya error con el auto, puede que necesitemos todavía MAS grande
+		game.width(20) // Resolución 1280 (40*32) |||| Nueva (20*64)
+		game.height(13.5) // Resolución 864 (Es un poco mas grande que 720)
 		game.title("Road Race Powered") // Nombre temporal
 		game.boardGround("Assets/FondoNivel0.jpg")
 		
@@ -32,12 +32,10 @@ object juego{
 	}
 	
 	method obstaculos(){
-		game.addVisual(new ObjetoObtenerPoder())							
-		game.addVisual(new Grieta(cantCombustibleDisminuido=jugador.combust()*0.7))
-        game.addVisual(new AutoEnemigo())
-        game.addVisual(new ManchaDeCombustible(cantCombustibleDisminuido=jugador.combust()*0.7))
-        
+		// Probé mil cosas y no se que poner acá, me sale error de overflow en TODO
+
 	}
+
 	
 	method graficosIndicadores(){
 		game.addVisual(indicadorCombus)
@@ -53,32 +51,42 @@ object juego{
 ///////// Cosas con la que el jugador puede chocar //////////////
 class Obstaculos {
 	
-	const property listaPosiciones= [game.at(23,3), game.at(21,5), game.at(15,8) ]
+	const property listaPosiciones= [game.at(8,5), game.at(9,8), game.at(8,10) ] // Las posiciones no son definitivas, está hecho para que aparezcan
+																				// siempre en pantalla, cuando funcione el movimiento lo arreglo
 	
 	var property position = listaPosiciones.anyOne()
 	
-	// Falta agregar el method que INICIE el ontick, uno que agregue un obstaculo en la pos random de listaPosiciones
+	const property listaEnem = [new AutoEnemigo(), new ManchaDeCombustible(), new Grieta(), new ObjetoObtenerPoder()]
 	
 	
-	method movimiento(){
-		game.onTick(500,"moverObstaculos",{self.MoverObstaculo()})
-	}
-	
-	method MoverObstaculo(){
-		position = position.down(2)
-	}
+//	Se supone que esto sirve para crear un nuevo obstaculo y moverlo, pero me da error, lo dejo por si les sirve de algo
+//
+//	method hacerRecorrido(){
+//		const nuevoEnem = listaEnem.anyOne() Guardo un enemigo al azar de la lista en una const
+//		game.onTick(4000,"agregarObs",{game.addVisual(nuevoEnem)}) cada 4 segundos se debería agregar uno
+//		game.onTick(4500,"moverObs",{nuevoEnem.desplazarse()}) cada 4,5 segundos se debería desplazar y al llegar a y = -1 o mas irse
+//	}
+//	
+//		
+//	
+//	method desplazarse(){
+//		position = position.down(3)
+//		if(position.y() <= -1) game.removeVisual(self)
+//	}
+//	
 	
 	method chocar(){
 		game.removeVisual(self)
 	}
+
+
 }
 
 
 
 
 class AutoEnemigo inherits Obstaculos{
-	
-//	var property position = game.at(3,23)
+
 	var property image = "Assets/enemRojo.png"
 	
 	override method chocar(){
@@ -89,38 +97,39 @@ class AutoEnemigo inherits Obstaculos{
 	method serImpactado(){ //Por si hacemos lo del proyectil
 		game.removeVisual(self)
 	}
+
+	
 }
 
 class Grieta inherits Obstaculos{
-	var  property cantCombustibleDisminuido =0
-//	var property position = game.at(3,20)
+
 	var property image = "Assets/Grieta.png"
 	
-	
+	const property combustDism = 350
 	override method chocar(){
-		jugador.combust(-300)
+		jugador.combust(jugador.combust() - combustDism)
 		super()
 
 	}
 }
 
 class ManchaDeCombustible inherits Obstaculos{
-	var  property cantCombustibleDisminuido
-//	var property position = game.at(5,23)
-	var property image = "Assets/fh"
+
+	var property image = "Assets/falta imagen"
 	
+	const property combustDism = 200
 	
 	override method chocar(){
-		jugador.combust(-200)
+		jugador.combust(jugador.combust() - combustDism)
 		super()
 	}
 }
 
 class ObjetoObtenerPoder inherits Obstaculos{
-	// Acá irían las cosas que al chocarlos, agregan un poder (Temporalmente las cosas rosas)
+
 	
 	const property image = "Assets/ObtenerPoder.png"
-//	var property position = game.at(3,15)
+
 
 	
 	override method chocar(){
@@ -139,7 +148,7 @@ class ObjetoObtenerPoder inherits Obstaculos{
 
 object indicadorCombus{
 	
-	const property position = game.at(30,3)
+	const property position = game.at(16,3)
 	var property image = if(jugador.combust().between(700,1000)) "Assets/bidonVerde.png"
 						 else if(jugador.combust().between(400,699)) "Assets/bidonAmarillo.png"
 						 else "Assets/bidonRojo.png"
@@ -163,7 +172,6 @@ object reloj {
 		game.removeTickEvent("tiempo")
 	}
 }
-
 
 /*
 
