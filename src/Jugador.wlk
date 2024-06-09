@@ -15,12 +15,12 @@ object jugador{
 	}
 	
 	method moverDerecha(){
-		const nuevaPosD = 21.min(position.x() + 1)
+		const nuevaPosD = 0.min(position.x() + 1)
 		position = game.at(nuevaPosD, position.y())
 	
 	}
 	method moverIzquierda(){
-		const nuevaPosI = 3.max(position.x() - 1)
+		const nuevaPosI = 0.max(position.x() - 1)
 		position = game.at(nuevaPosI, position.y())
 	}
 
@@ -30,7 +30,7 @@ object jugador{
 		if (baul.isEmpty()){
 			game.say(self,"No tengo poderes disponibles")
 		}else{
-			baul.first().activar() // Es necesario el firts si solo va a haber uno?
+			baul.first().activar() // Es necesario el first si solo va a haber uno?
 			baul.clear() // Una vez se activa el poder, se elimina, no me acordaba como era el eliminar uno solo, así que puse clear
 		}
 	}

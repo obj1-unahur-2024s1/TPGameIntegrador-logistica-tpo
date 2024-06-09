@@ -1,6 +1,7 @@
 import wollok.game.*
 import Jugador.*
 
+
 object juego{
 	method iniciar(){
 		self.graficosBase()
@@ -16,8 +17,8 @@ object juego{
 		game.width(20) // Resolución 1280 (40*32) |||| Nueva (20*64)
 		game.height(13.5) // Resolución 864 (Es un poco mas grande que 720)
 		game.title("Road Race Powered") // Nombre temporal
-		game.boardGround("Assets/FondoNivel0.jpg")
-		
+		game.addVisual(fondo)
+		fondo.movimiento()
 	}
 	
 	method controlesJugador(){
@@ -32,11 +33,64 @@ object juego{
 	}
 	
 	method obstaculos(){
-		// Probé mil cosas y no se que poner acá, me sale error de overflow en TODO
 
-	}
-
+		const listaAparicion = [(2000),(4000),(300),(6000),(1000),(500),(900)]
+		var autoER1 = new AutoEnemigo()
+		var autoER2 = new AutoEnemigo()
+		var autoER3 = new AutoEnemigo()
+		var autoER4 = new AutoEnemigo()
+		var autoA1 = new AutoEnemigoA()
+		var autoA2 = new AutoEnemigoA()
+		var autoV = new AutoEnemigoV()
+		var autoV2 = new AutoEnemigoV()
+		var autoV3 = new AutoEnemigoV()
+		var camion1 = new Camion()
+		var pod1 = new ObjetoObtenerPoder()
+		var pod2 = new ObjetoObtenerPoder()
+		var grieta1 = new Grieta()
+		var grieta2 = new Grieta()
+		var grieta3 = new Grieta()
+		var comb = new CargaCombust()
+		var comb2 = new CargaCombust()
+		
+		
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER1)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER2)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER3)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER4)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoA1)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoA2)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV2)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV3)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(camion1)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(comb)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(comb2)})
+		game.schedule(10000,{game.addVisual(pod1)})
+		game.schedule(45000, {game.addVisual(pod2)})
+		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta1)})
+		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta2)})
+		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta3)})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoER1))autoER1.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(autoER2))autoER2.moverObstaculos()}) 
+		game.onTick(1000, "mov", {if(game.hasVisual(autoER3))autoER3.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(autoER4))autoER4.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoA1))autoA1.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoA2))autoA2.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoV))autoV.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoV2))autoV2.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(autoV3))autoV3.moverObstaculos()})
+		game.onTick(800, "mov",{if(game.hasVisual(camion1))camion1.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(comb))comb.moverObstaculos()})
+		game.onTick(1000, "mov",{if(game.hasVisual(comb2))comb2.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(pod1))pod1.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(pod2))pod2.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(grieta1))grieta1.moverObstaculos()})
+		game.onTick(1000, "mov", {if(game.hasVisual(grieta2))grieta2.moverObstaculos()})
 	
+	}
+	
+
 	method graficosIndicadores(){
 		game.addVisual(indicadorCombus)
 		game.addVisual(reloj)
@@ -44,48 +98,47 @@ object juego{
 	}
 }
 
+object fondo{
+	const property image = "Assets/FondoNivel0.jpg"
+	var property position = game.at(0,0)
+	var bucle = 0
+	method movimiento(){
+		game.onTick(600,"movMapa",{position = position.down(1);bucle = bucle + 1; if (bucle == 5) {position = game.at(0,0) bucle = 0}})
+		
+	}
+}
 
-
-
- 
 ///////// Cosas con la que el jugador puede chocar //////////////
-class Obstaculos {
+class SuperObstaculos {
 	
-	const property listaPosiciones= [game.at(8,5), game.at(9,8), game.at(8,10) ] // Las posiciones no son definitivas, está hecho para que aparezcan
-																				// siempre en pantalla, cuando funcione el movimiento lo arreglo
+	const property listaPosiciones= [game.at(8,13),game.at(1,13), game.at(3,13), game.at(5,13), game.at(8,15), game.at(5,15), game.at(3,15), game.at(9,15), game.at(6,15) ]
+	const property listaReinicio = [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -14, -15, -20, -25]
 	
 	var property position = listaPosiciones.anyOne()
 	
-	const property listaEnem = [new AutoEnemigo(), new ManchaDeCombustible(), new Grieta(), new ObjetoObtenerPoder()]
-	
-	
-//	Se supone que esto sirve para crear un nuevo obstaculo y moverlo, pero me da error, lo dejo por si les sirve de algo
-//
-//	method hacerRecorrido(){
-//		const nuevoEnem = listaEnem.anyOne() Guardo un enemigo al azar de la lista en una const
-//		game.onTick(4000,"agregarObs",{game.addVisual(nuevoEnem)}) cada 4 segundos se debería agregar uno
-//		game.onTick(4500,"moverObs",{nuevoEnem.desplazarse()}) cada 4,5 segundos se debería desplazar y al llegar a y = -1 o mas irse
-//	}
-//	
-//		
-//	
-//	method desplazarse(){
-//		position = position.down(3)
-//		if(position.y() <= -1) game.removeVisual(self)
-//	}
-//	
+
+	method moverObstaculos(){
+		position = position.down(1)
+		if(position.y() <= listaReinicio.anyOne()) position = listaPosiciones.anyOne() // Si la posicion del obstaculo es igual o menor a alguna al azar de la lista
+																  // Vuelve a una posición inicial aleatoria
+		}
+		
+
+
 	
 	method chocar(){
 		game.removeVisual(self)
 	}
 
+	
 
 }
 
 
 
 
-class AutoEnemigo inherits Obstaculos{
+
+class AutoEnemigo inherits SuperObstaculos {
 
 	var property image = "Assets/enemRojo.png"
 	
@@ -94,14 +147,47 @@ class AutoEnemigo inherits Obstaculos{
 		super()
 	}
 	
-	method serImpactado(){ //Por si hacemos lo del proyectil
-		game.removeVisual(self)
+	method serImpactado(){
+		game.schedule(3000,position = listaReinicio.anyOne())
 	}
 
 	
 }
 
-class Grieta inherits Obstaculos{
+class AutoEnemigoV inherits SuperObstaculos{
+	var property  image = "Assets/EnemVerde.png"
+	
+	override method chocar(){
+		game.stop()
+		super()
+	}
+	method serImpactado(){
+		game.schedule(3000,position = listaReinicio.anyOne())
+	}
+}
+
+class AutoEnemigoA inherits SuperObstaculos{
+	var property image = "Assets/EnemAmarillo.png"
+	override method chocar(){
+		game.stop()
+		super()
+	}
+	method serImpactado(){
+		game.schedule(3000,position = listaReinicio.anyOne())
+	}
+}
+
+class Camion inherits SuperObstaculos{
+	var property image ="Assets/camion.png"
+	override method chocar(){
+		game.stop()
+		super()
+	}
+	method serImpactado(){
+		game.schedule(5000,position = listaReinicio.anyOne())
+	}
+}
+class Grieta inherits SuperObstaculos{
 
 	var property image = "Assets/Grieta.png"
 	
@@ -111,11 +197,12 @@ class Grieta inherits Obstaculos{
 		super()
 
 	}
+
 }
 
-class ManchaDeCombustible inherits Obstaculos{
+class ManchaDeCombustible inherits SuperObstaculos{
 
-	var property image = "Assets/falta imagen"
+	var property image = "Assets/Mancha.png"
 	
 	const property combustDism = 200
 	
@@ -125,7 +212,7 @@ class ManchaDeCombustible inherits Obstaculos{
 	}
 }
 
-class ObjetoObtenerPoder inherits Obstaculos{
+class ObjetoObtenerPoder inherits SuperObstaculos{
 
 	
 	const property image = "Assets/ObtenerPoder.png"
@@ -137,6 +224,17 @@ class ObjetoObtenerPoder inherits Obstaculos{
 		super()
 	}
 }
+
+class CargaCombust inherits SuperObstaculos{
+	const property image = "Assets/BidonComb.png"
+	override method chocar(){
+		const sumarCombust = jugador.combust() + 600
+		jugador.combust(sumarCombust)
+		position = game.schedule(15000,position = listaReinicio.anyOne()
+		)
+	}
+}
+
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -172,6 +270,7 @@ object reloj {
 		game.removeTickEvent("tiempo")
 	}
 }
+
 
 /*
 
