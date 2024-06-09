@@ -6,9 +6,9 @@ import wollok.game.*
 object jugador{
 	const property baul = []
 	var property combust = 1000
-	var property image = "Assets/Jugador.png"
+	const property image = "Assets/Jugador.png"
 	var property position = game.at(12,0)
-	const property poderes = [new PoderCombust() , new PoderPuntos()]
+	const property poderes = [new PoderCombust() , new PoderPuntos(), new PoderProyectil()]
 	
 	method agarrar(cosa){
 		if(baul == [ ]) baul.add(cosa)
@@ -24,13 +24,13 @@ object jugador{
 		position = game.at(nuevaPosI, position.y())
 	}
 
-	
 	//Interaccion con los poderes//
 	method activarPoder(){
 		if (baul.isEmpty()){
 			game.say(self,"No tengo poderes disponibles")
 		}else{
-			baul.first().activar() // Es necesario el first si solo va a haber uno?
+			const poder = baul.first()
+			poder.activar() // Es necesario el first si solo va a haber uno?
 			baul.clear() // Una vez se activa el poder, se elimina, no me acordaba como era el eliminar uno solo, así que puse clear
 		}
 	}
@@ -38,17 +38,11 @@ object jugador{
 	method agregarPoder(){
 		self.baul().add(poderes.anyOne())
 	}
-	
-//	method disparar(){
-//		const proyectil = new Proyectil(position = self.position().up(1))
-//		proyectil.avanzar()
-//	}
-
 }
 ////////////// a partir de acá los poderes //////////////
 
-class Poderes{
-	
+class Poderes inherits ObjetoObtenerPoder{
+
 	method activar()
 	
 }
@@ -57,6 +51,7 @@ class Poderes{
 class PoderCombust inherits Poderes{
 	override method activar(){
 		jugador.combust(1000)
+		game.say(jugador, "¡¡Combustible cargado!!")
 	}
 }
 
@@ -64,35 +59,38 @@ class PoderPuntos inherits Poderes{
 	override method activar(){
 		const sumarPuntos = reloj.tiempo() + 1000
 		reloj.tiempo(sumarPuntos)
+		game.say(jugador, "¡¡Consegui varios puntos!!")
 	}
 }
 
-// Por si hacemos el poder del proyectil
 
-//class PoderProyectil inherits Poderes{
-//	
-//	const property image = "Assets/proyectil.png"
-//	
-//	var property position 
-//	
-//
-//	override method activar(){
-//		jugador.disparar()
-//	}
-//	
-//	method hacerRecorrido(){
-//		
-//		game.addVisual(self)
-//		game.onCollideDo(self,{elem => elem.serImpactado()})
-//		game.onTick(500,"avanzar",{self.avanzar()})
-//	}
-//	method avanzar(){
-//		position = position.up(32)
-//		}
-//
-//	
-//	method detener(){
-//		game.removeTickEvent("avanzar")
-//		game.removeVisual(self)
-//	}
-//}
+class PoderProyectil inherits Poderes{
+	
+	override method imagen() = "Assets/Proyectil.png"
+	
+	override method posicion() = jugador.position().up(1) 
+	// La posicion del proyectil siempre es donde aparece el jugador.
+
+	
+	override method activar(){
+		game.addVisual(self)
+		game.onCollideDo(self,{elem => 
+			elem.serImpactado()
+			self.detener()
+		})
+		game.onTick(500,"avanzar",{self.avanzar()})
+	}	
+	
+	method avanzar(){
+		const posNueva = position.up(1)
+		position = posNueva
+	}
+		
+	method detener(){
+		game.removeTickEvent("avanzar")
+		game.removeVisual(self)	
+	}
+}
+
+
+

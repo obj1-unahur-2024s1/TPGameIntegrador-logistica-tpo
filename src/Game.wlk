@@ -8,7 +8,6 @@ object juego{
 		self.controlesJugador()
         self.obstaculos()
 		self.graficosIndicadores()
-		
 		game.start()
 	}
 	
@@ -114,27 +113,21 @@ class SuperObstaculos {
 	const property listaPosiciones= [game.at(8,13),game.at(1,13), game.at(3,13), game.at(5,13), game.at(8,15), game.at(5,15), game.at(3,15), game.at(9,15), game.at(6,15) ]
 	const property listaReinicio = [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -14, -15, -20, -25]
 	
-	var property position = listaPosiciones.anyOne()
+	var property position = self.posicion()
 	
-
+	method posicion() = listaPosiciones.anyOne()	
+	
 	method moverObstaculos(){
 		position = position.down(1)
-		if(position.y() <= listaReinicio.anyOne()) position = listaPosiciones.anyOne() // Si la posicion del obstaculo es igual o menor a alguna al azar de la lista
-																  // Vuelve a una posición inicial aleatoria
+		if(position.y() <= listaReinicio.anyOne()) {position = listaPosiciones.anyOne() // Si la posicion del obstaculo es igual o menor a alguna al azar de la lista																  // Vuelve a una posición inicial aleatoria
 		}
-		
-
-
-	
+	}
 	method chocar(){
 		game.removeVisual(self)
 	}
-
-	
+	method serImpactado(){}
 
 }
-
-
 
 
 
@@ -147,7 +140,7 @@ class AutoEnemigo inherits SuperObstaculos {
 		super()
 	}
 	
-	method serImpactado(){
+	override method serImpactado(){
 		game.schedule(3000,position = listaReinicio.anyOne())
 	}
 
@@ -161,7 +154,7 @@ class AutoEnemigoV inherits SuperObstaculos{
 		game.stop()
 		super()
 	}
-	method serImpactado(){
+	override method serImpactado(){
 		game.schedule(3000,position = listaReinicio.anyOne())
 	}
 }
@@ -172,7 +165,7 @@ class AutoEnemigoA inherits SuperObstaculos{
 		game.stop()
 		super()
 	}
-	method serImpactado(){
+	override method serImpactado(){
 		game.schedule(3000,position = listaReinicio.anyOne())
 	}
 }
@@ -183,7 +176,7 @@ class Camion inherits SuperObstaculos{
 		game.stop()
 		super()
 	}
-	method serImpactado(){
+	override method serImpactado(){
 		game.schedule(5000,position = listaReinicio.anyOne())
 	}
 }
@@ -195,7 +188,6 @@ class Grieta inherits SuperObstaculos{
 	override method chocar(){
 		jugador.combust(jugador.combust() - combustDism)
 		super()
-
 	}
 
 }
@@ -213,11 +205,10 @@ class ManchaDeCombustible inherits SuperObstaculos{
 }
 
 class ObjetoObtenerPoder inherits SuperObstaculos{
-
 	
-	const property image = "Assets/ObtenerPoder.png"
-
-
+	const property image = self.imagen()
+	
+	method imagen() = "Assets/ObtenerPoder.png"
 	
 	override method chocar(){
 		if (jugador.baul() == [ ]) jugador.agregarPoder() else game.say(jugador,"Solo puedo tener un poder a la vez")
@@ -230,8 +221,7 @@ class CargaCombust inherits SuperObstaculos{
 	override method chocar(){
 		const sumarCombust = jugador.combust() + 600
 		jugador.combust(sumarCombust)
-		position = game.schedule(15000,position = listaReinicio.anyOne()
-		)
+		super()
 	}
 }
 
