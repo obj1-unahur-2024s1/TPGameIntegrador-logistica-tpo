@@ -7,7 +7,7 @@ object jugador{
 	const property baul = []
 	var property combust = 1000
 	const property image = "Assets/Jugador.png"
-	var property position = game.at(12,0)
+	var property position = game.at(6,0)
 	const property poderes = [new PoderCombust() , new PoderPuntos(), new PoderProyectil()]
 	
 	method agarrar(cosa){
@@ -15,33 +15,38 @@ object jugador{
 	}
 	
 	method moverDerecha(){
-		const nuevaPosD = 0.min(position.x() + 1)
+		const nuevaPosD = 10.min(position.x() + 2)
 		position = game.at(nuevaPosD, position.y())
 	
 	}
 	method moverIzquierda(){
-		const nuevaPosI = 0.max(position.x() - 1)
+		const nuevaPosI = 2.max(position.x() - 2)
 		position = game.at(nuevaPosI, position.y())
 	}
 
-	//Interaccion con los poderes//
+
 	method activarPoder(){
 		if (baul.isEmpty()){
 			game.say(self,"No tengo poderes disponibles")
 		}else{
 			const poder = baul.first()
-			poder.activar() // Es necesario el first si solo va a haber uno?
-			baul.clear() // Una vez se activa el poder, se elimina, no me acordaba como era el eliminar uno solo, así que puse clear
+			poder.activar()
+			baul.clear()
 		}
 	}
 	
 	method agregarPoder(){
 		self.baul().add(poderes.anyOne())
 	}
+	
+	method andar(){
+		game.onTick(1000,"andar",{combust = combust - 1})
+	}
 }
+
 ////////////// a partir de acá los poderes //////////////
 
-class Poderes inherits ObjetoObtenerPoder{
+class Poderes{ // No debería heredar de el objeto obtener poder, 
 
 	method activar()
 	
@@ -49,13 +54,17 @@ class Poderes inherits ObjetoObtenerPoder{
 
 
 class PoderCombust inherits Poderes{
+	const property position = game.at(14,5)
 	override method activar(){
 		jugador.combust(1000)
 		game.say(jugador, "¡¡Combustible cargado!!")
 	}
+	
 }
 
 class PoderPuntos inherits Poderes{
+	const property image = "Assets/poderPuntos.png"
+	const property position = game.at(14,5)
 	override method activar(){
 		const sumarPuntos = reloj.tiempo() + 1000
 		reloj.tiempo(sumarPuntos)
@@ -65,10 +74,10 @@ class PoderPuntos inherits Poderes{
 
 
 class PoderProyectil inherits Poderes{
+	var position = jugador.position().up(1) 
+	var image = "Assets/Proyectil.png"
 	
-	override method imagen() = "Assets/Proyectil.png"
 	
-	override method posicion() = jugador.position().up(1) 
 	// La posicion del proyectil siempre es donde aparece el jugador.
 
 	
@@ -91,6 +100,3 @@ class PoderProyectil inherits Poderes{
 		game.removeVisual(self)	
 	}
 }
-
-
-
