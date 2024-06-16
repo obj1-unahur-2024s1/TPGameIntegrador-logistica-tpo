@@ -5,7 +5,7 @@ import wollok.game.*
 
 object jugador{
 	const property baul = []
-	var property combust = 1000
+	var property combust = 100
 	const property image = "Assets/Jugador.png"
 	var property position = game.at(6,0)
 	const property poderes = [new PoderCombust() , new PoderPuntos(), new PoderProyectil()]
@@ -23,6 +23,7 @@ object jugador{
 		const nuevaPosI = 2.max(position.x() - 2)
 		position = game.at(nuevaPosI, position.y())
 	}
+	
 
 
 	method activarPoder(){

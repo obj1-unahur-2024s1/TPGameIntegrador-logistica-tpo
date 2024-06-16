@@ -5,20 +5,37 @@ import Jugador.*
 object juego{
 	method iniciar(){
 		self.graficosBase()
-		self.controlesJugador()
-        self.obstaculos()
-		self.graficosIndicadores()
-		self.victoria()
+		self.seleccionDeDificultad()
+		self.pantalla_De_Inicio()
 		game.start()
+	}
+	method pantalla_De_Inicio(){
+		game.addVisual(fondo1)
+		game.addVisual(fondoZ)
+		keyboard.z().onPressDo {
+			game.removeVisual(fondo1)
+			game.removeVisual(fondoZ)
+		}
+	}
+	method seleccionDeDificultad(){
+		game.addVisual(fondo2)
+		keyboard.num1().onPressDo {
+			game.removeVisual(fondo2)		
+			self.controlesJugador()
+        	self.obstaculos()
+			self.graficosIndicadores()
+		}
 	}
 	
 	method graficosBase(){
 		game.cellSize(64) 
 		game.width(20) 
-		game.height(13.5) 
+		game.height(13.5)
 		game.title("Road Race Powered")
 		game.addVisual(fondo)
 		fondo.movimiento()
+		reloj.iniciar()
+		reloj.meta()
 	}
 
 	
@@ -36,10 +53,12 @@ object juego{
 	method obstaculos(){
 
 		const listaAparicion = [(500),(1000),(5000),(7000),(10000),(10500)]
+		
 		const autoER1 = new AutoEnemigo()
 		const autoER2 = new AutoEnemigo()
 		const autoER3 = new AutoEnemigo()
 		const autoER4 = new AutoEnemigo()
+		const autoER5 = new AutoEnemigo()
 		const autoA1 = new AutoEnemigoA()
 		const autoA2 = new AutoEnemigoA()
 		const autoV = new AutoEnemigoV()
@@ -55,42 +74,60 @@ object juego{
 		const comb = new CargaCombust()
 		const comb2 = new CargaCombust()
 		
-		
-		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER1)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER1)}) 
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER2)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER3)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER4)})
+		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER5)})
+	
+		
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoA1)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoA2)})
+		
+		
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV2)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoV3)})
+		
+		
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(comb)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(comb2)})
+		
 		game.schedule(10000,{game.addVisual(pod1)})
 		game.schedule(45000, {game.addVisual(pod2)})
+		
 		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta1)})
 		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta2)})
 		game.schedule(listaAparicion.anyOne(), {game.addVisual(grieta3)})
+		
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(mancha1)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(mancha2)})
-		game.onTick(800, "mov",{if(game.hasVisual(autoER1))autoER1.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(autoER2))autoER2.moverObstaculos()}) 
-		game.onTick(800, "mov", {if(game.hasVisual(autoER3))autoER3.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(autoER4))autoER4.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(autoA1))autoA1.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(autoA2))autoA2.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(autoV))autoV.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(autoV2))autoV2.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(autoV3))autoV3.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(comb))comb.moverObstaculos()})
-		game.onTick(800, "mov",{if(game.hasVisual(comb2))comb2.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(pod1))pod1.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(pod2))pod2.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(grieta1))grieta1.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(grieta2))grieta2.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(mancha1))mancha1.moverObstaculos()})
-		game.onTick(800, "mov", {if(game.hasVisual(mancha1))mancha1.moverObstaculos()})
+
+		game.onTick(800, "mov", {if(game.hasVisual(autoER2))autoER1.moverObstaculos()
+								if(game.hasVisual(autoER2))autoER2.moverObstaculos()
+								if(game.hasVisual(autoER3))autoER3.moverObstaculos()
+								if(game.hasVisual(autoER4))autoER4.moverObstaculos()
+								if(game.hasVisual(autoER5))autoER5.moverObstaculos()
+								if(game.hasVisual(autoA1))autoA1.moverObstaculos()
+								if(game.hasVisual(autoA2))autoA2.moverObstaculos()
+								if(game.hasVisual(autoV))autoV.moverObstaculos()
+								if(game.hasVisual(autoV2))autoV2.moverObstaculos()
+								if(game.hasVisual(autoV3))autoV3.moverObstaculos()
+								if(game.hasVisual(comb))comb.moverObstaculos()
+								if(game.hasVisual(comb2))comb2.moverObstaculos()
+								if(game.hasVisual(pod1))pod1.moverObstaculos()
+								if(game.hasVisual(pod2))pod2.moverObstaculos()
+								if(game.hasVisual(grieta1))grieta1.moverObstaculos()
+								if(game.hasVisual(grieta2))grieta2.moverObstaculos()
+								if(game.hasVisual(mancha1))mancha1.moverObstaculos()
+								if(game.hasVisual(mancha2))mancha2.moverObstaculos()}) 						
+	
+		game.onTick(500,"moveV",{if(game.hasVisual(autoV))autoV.cambiarPosV()
+									if(game.hasVisual(autoV2))autoV2.cambiarPosV()
+									if(game.hasVisual(autoV3))autoV3.cambiarPosV()})
+									
+		game.onTick(500,"moveA",{if(game.hasVisual(autoA1))autoA1.cambiarPosA()
+									if(game.hasVisual(autoA2))autoA2.cambiarPosA()})
 	
 	}
 	
@@ -99,7 +136,8 @@ object juego{
 		game.addVisual(indicadorCombus)
 		game.addVisual(reloj)
 		reloj.iniciar()
-		game.addVisual(cajaPoder)
+		game.addVisual(indicadorPoder)
+		barraPoder.cargarPoder()
 		jugador.andar()
 		
 	}
@@ -139,20 +177,37 @@ object juego{
 
 		}
 }
+
 object fondo{
 	const property image = "Assets/FondoNivel0.jpg"
 	var property position = game.at(0,0)
 	var bucle = 0
 	method movimiento(){
 		game.onTick(800,"movMapa",{position = position.down(1);bucle = bucle + 1; if (bucle == 5) {position = game.at(0,0) bucle = 0}})
-		
 	}
-}
+	method pantalla_De_Inicio(){
+		game.addVisual(fondo1)
+		keyboard.z().onPressDo {
+			game.removeVisual(fondo1)
+			
+			}
+		}
+	}
 
-object cajaPoder{
-	const property image = "Assets/cuadroPoder.png"
-	const property position = game.at(14,5)
-}
+object fondo1 {
+	var property image = "Assets/PantallaDeInicio.jpg"
+	var property position = game.at(0,0)
+	}
+
+object fondo2 {
+	var property image = "Assets/SeleccionDeNivel.jpg"
+	var property position = game.at(0,0)
+	}
+
+object fondoZ {
+	var property image = "Assets/pulseZ.png"
+	var property position = game.at(0,0)
+	}
 
 
 ///////// Cosas con la que el jugador puede chocar //////////////
@@ -162,6 +217,10 @@ class SuperObstaculos {
 									game.at(6,15), game.at(8,15),game.at(10,15), game.at(2,20),game.at(4,20),game.at(6,20),game.at(8,20),
 									game.at(10,20)]
 	const property listaReinicio = [-1, -4, -7, -11, -15]
+	const property movEspecial = [ 2 , 4]
+	
+
+	
 	
 	var property position = listaPosiciones.anyOne()
 	
@@ -170,13 +229,15 @@ class SuperObstaculos {
 		position = position.down(1)
 		if(position.y() <= listaReinicio.anyOne()) {position = listaPosiciones.anyOne() // Si la posicion del obstaculo es igual o menor a alguna al azar de la lista																  // Vuelve a una posición inicial aleatoria
 		}
-	}
+		
+		}
 	method chocar(){
 		position = listaPosiciones.anyOne()
 	}
 	method serImpactado(){}
 
 }
+
 
 class AutoEnemigo inherits SuperObstaculos {
 
@@ -186,7 +247,7 @@ class AutoEnemigo inherits SuperObstaculos {
 		game.stop()
 
 	}
-	
+		
 	override method serImpactado(){
 		position = listaPosiciones.anyOne()
 	}
@@ -204,10 +265,18 @@ class AutoEnemigoV inherits SuperObstaculos{
 	override method serImpactado(){
 		position = listaPosiciones.anyOne()
 	}
-}
+	
+	method cambiarPosV(){ // Priorizan moverse dos carriles, se suelen trabar fácil (a propósito)
+		if(position.y() > 1 and position.x().between(2,4) and game.getObjectsIn(position.right(2)).isEmpty() and game.getObjectsIn(position.right(4)).isEmpty())     position = position.right(movEspecial.anyOne()) 
+		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty() and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(movEspecial.anyOne())
+		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(4)
+		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(4)).isEmpty()) position = position.right(4)
+		}
+	}
 
 class AutoEnemigoA inherits SuperObstaculos{
 	var property image = "Assets/EnemAmarillo.png"
+	
 	override method chocar(){
 		game.stop()
 
@@ -215,7 +284,22 @@ class AutoEnemigoA inherits SuperObstaculos{
 	override method serImpactado(){
 		position = listaPosiciones.anyOne()
 	}
-}
+	
+	method cambiarPosA(){ // Priorizan moverse un carril y casi nunca se traban
+		if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(2)).isEmpty())position = position.right(2)
+		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty())position = position.left(2)
+		else if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(4)).isEmpty())position = position.right(4)
+		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(4)).isEmpty())position = position.left(4)
+		else if(position.y() > 1 and position.x() == 6 and (game.getObjectsIn(position.left(4)).isEmpty())) position = position.left(4)
+		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(4)).isEmpty()) position = position.right(4)
+		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.left(2)).isEmpty()) position = position.left(2)
+		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(2)).isEmpty()) position = position.right(2)
+		}
+	}
+		
+
+	
+
 
 class Grieta inherits SuperObstaculos{
 
@@ -246,8 +330,9 @@ class ObjetoObtenerPoder inherits SuperObstaculos{
 	const property image = "Assets/ObtenerPoder.png"
 	
 	override method chocar(){
-		if (jugador.baul() == [ ]) jugador.agregarPoder() else game.say(jugador,"Solo puedo tener un poder a la vez")
-		super()
+		const cargaPoder = barraPoder.poder() + 25
+		barraPoder.poder(cargaPoder)
+		super() 
 	}
 }
 
@@ -280,6 +365,24 @@ class LineaDeMeta{
 
 //////////// Zona de Indicadores ////////////////
 
+object barraPoder{
+	var property poder = 100
+	method iniciarPoder(){
+		poder = 100.min(poder + 1) //No funciona
+	}
+	method cargarPoder(){
+		game.onTick(100,"cargarPoder",{self.iniciarPoder()})
+	}
+}
+
+object indicadorPoder{
+	const property position = game.at(14,5)
+	var property image = if(barraPoder.poder().between(0,49)) "Assets/poder0.png"
+					    else if(barraPoder.poder().between(50,99)) "Assets/poder50.png"
+					    else "Assets/poder100.png"
+	// Esto no cambia automaticamente
+}
+
 object indicadorCombus{
 	
 	const property position = game.at(15,2)
@@ -287,17 +390,14 @@ object indicadorCombus{
 						 else if(jugador.combust().between(400,699)) "Assets/bidonAmarillo.png"
 						 else "Assets/bidonRojo.png"
 	}
-
-
-
-object reloj {
 	
-	var property tiempo = 60 
-	var property image = "Puntos = " + tiempo.toString()
-	const property position = game.at(15,11)
+	object reloj {
+	var property tiempo = 0
+	const property position = game.at(15 ,11)
+	method text() = tiempo.toString()
 	
 	method pasarTiempo() {
-		tiempo = tiempo +20
+		tiempo = tiempo +1
 	}
 	method iniciar(){
 		tiempo = 0
@@ -306,62 +406,7 @@ object reloj {
 	method detener(){
 		game.removeTickEvent("tiempo")
 	}
-}
-
-
-/*
-
-object fondo1 {
-	var property image = "Assets/PantallaDeInicio.jpg"
-	var property position = game.center()
-}
-object fondo2 {
-	var property image = "Assets/SeleccionDeNivel.jpg"
-	var property position = game.center()
-}
-
-
-Imagenes de seleccion de fondo, por ahora no hacen falta hasta que se agregue la funcion de elegir nivel
-
-
-
-
---------------------------------------------------------------------------------------------------------------------
-class poderes{
-
-	const poderes = [new PoderCombust() , new PoderPuntos() ]
-	var property position = self.posicionInicial()
-	var property image = "Assets/ObtenerPoder.png"
-	method posicionInicial() = game.at(3,10)
-	method iniciar(){
-		const velocidad = 0
-		game.onTick(velocidad,"moverPoderes",{self.mover()})
+	method meta(){
+		game.onTick(60000,"meta",{juego.victoria()})
 	}
-	method mover(){
-		position = position.down(1)
-		if (position.y() == -1)
-			position = self.posicionInicial()
-	} 
-
 }
-
-Esto lo hizo Brenda, lo guardo acá por las dudas, ya que intento separar la lista de poderes, del objeto que los da
-
-
----------------------------------------------------------------------------------------------------------------------------
-
-
-
-Notas:
-* 
-* Quizá deberíamos aumentar el tamaño de las casillas a 64 o mas, ya que al tener 32, y el auto al tener una altura de 64
-* la colision no se activa hasta que la mitad del auto choca
-*
-* preguntar por que no se puede restar normalmente los method chocar() 
-* 
-* Las colisones por ahora funcionan todas
-* 
-
-
-
-*/

@@ -3,8 +3,6 @@ import Game.*
 import Jugador.*
 
 program RoadRacingPowered{
-	const mfondo1 = game.sound("Audio/normalNivel1.mp3")
-	mfondo1.shouldLoop(true)
-	game.schedule(600,{mfondo1.play()})
+
 	juego.iniciar()
 }

@@ -4,15 +4,15 @@ import wollok.game.*
 
 
 object jugador{
-	const property baul = []
+//	const property baul = []
 	var property combust = 1000
 	const property image = "Assets/Jugador.png"
 	var property position = game.at(6,0)
 	const property poderes = [new PoderCombust() , new PoderPuntos(), new PoderProyectil()]
 	
-	method agarrar(cosa){
-		if(baul == [ ]) baul.add(cosa)
-	}
+//	method agarrar(cosa){
+//		if(baul == [ ]) baul.add(cosa)
+//	}
 	
 	method moverDerecha(){
 		const nuevaPosD = 10.min(position.x() + 2)
@@ -23,22 +23,23 @@ object jugador{
 		const nuevaPosI = 2.max(position.x() - 2)
 		position = game.at(nuevaPosI, position.y())
 	}
+	
 
 
-	method activarPoder(){
-		if (baul.isEmpty()){
-			game.say(self,"No tengo poderes disponibles")
-		}else{
-			const poder = baul.first()
-			poder.activar()
-			baul.clear()
-		}
-	}
+//	method activarPoder(){
+//		if (baul.isEmpty()){
+//			game.say(self,"No tengo poderes disponibles")
+//		}else{
+//			const poder = baul.first()
+//			poder.activar()
+//			baul.clear()
+//		}
+//	}
 	
-	method agregarPoder(){
-		self.baul().add(poderes.anyOne())
-	}
-	
+//	method agregarPoder(){
+//		self.baul().add(poderes.anyOne())
+//	}
+//	
 	method andar(){
 		game.onTick(1000,"andar",{combust = combust - 1})
 	}
