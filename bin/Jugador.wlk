@@ -9,24 +9,16 @@ object jugador{
 	var property position = game.at(6,0)
 
 
-	method moverDerechaN1(){
+	method moverDerecha(){
 		const nuevaPosD = 10.min(position.x() + 2)
 		position = game.at(nuevaPosD, position.y())
 	
 	}
-	method moverIzquierdaN1(){
+	method moverIzquierda(){
 		const nuevaPosI = 2.max(position.x() - 2)
 		position = game.at(nuevaPosI, position.y())
 	}
 	
-	method moverDerechaN2(){
-		const nuevaPosD = 9.min(position.x()+2)
-		position = game.at(nuevaPosD,position.y())
-	}
-	method moverIzquierdaN2(){
-		const nuevaPosI = 5.max(position.x() - 2)
-		position = game.at(nuevaPosI, position.y())
-	}
 
 	method andar(){
 		combust = combust - 10

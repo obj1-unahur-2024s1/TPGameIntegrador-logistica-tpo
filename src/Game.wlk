@@ -25,14 +25,14 @@ object juego{
 			self.nivel1()
         	self.obstaculosN1()
 			self.graficosIndicadores()
-			self.controlesJugadorN1()
+			self.controlesJugador()
 		}
 		keyboard.num2().onPressDo {
 			game.removeVisual(fondo2)
 			self.nivel2()
 			self.obstaculosN2()
 			self.graficosIndicadores()
-			self.controlesJugadorN2()
+			self.controlesJugador()
 		}
 	}
 	
@@ -63,10 +63,10 @@ object juego{
 	}
 	
 	
-	method controlesJugadorN1(){
+	method controlesJugador(){
 		game.addVisual(jugador)
-        keyboard.right().onPressDo({jugador.moverDerechaN1()})
-		keyboard.left().onPressDo({jugador.moverIzquierdaN1()})
+        keyboard.right().onPressDo({jugador.moverDerecha()})
+		keyboard.left().onPressDo({jugador.moverIzquierda()})
 		
 		//interaccion con poderes//
 		keyboard.q().onPressDo({if (barraPoder.poder() == 100){
@@ -88,31 +88,6 @@ object juego{
 		game.onCollideDo(jugador,{elem => elem.chocar() })
 	}
 	
-	method controlesJugadorN2(){
-		jugador.position(game.at(7,0))
-		game.addVisual(jugador)
-        keyboard.right().onPressDo({jugador.moverDerechaN2()})
-		keyboard.left().onPressDo({jugador.moverIzquierdaN2()})
-		
-		//interaccion con poderes//
-		keyboard.q().onPressDo({if (barraPoder.poder() == 100){
-			poderPuntos.activar()
-			barraPoder.reset()
-			game.say(jugador, "¡¡Consegui varios puntos!!"
-			)}else{
-				game.say(jugador,"No tengo el poder suficiente!")
-			}
-		})
-		keyboard.w().onPressDo({if (barraPoder.poder() == 100){
-			poderCombust.activar()
-			barraPoder.reset()}else{
-				game.say(jugador,"No tengo el poder suficiente!")
-			}
-		})
-	
-		// Colisiones
-		game.onCollideDo(jugador,{elem => elem.chocar() })
-	}
 	
 	method obstaculosN2(){
 
@@ -293,6 +268,7 @@ object juego{
 		game.addVisual(indicadorCombus)
 		jugador.gastarC()
 		indicadorCombus.comprobarCombust()
+		indicadorCombus.combustGM()
 		game.addVisual(reloj)
 		reloj.iniciar()
 		game.addVisual(indicadorPoder)
@@ -367,7 +343,7 @@ object fondoZ {
 	}
 
 object fondoN2{
-const property image = "Assets/FondoNivel2.png"
+const property image = "Assets/FondoNivel2.jpg"
 	var property position = game.at(0,0)
 	var bucle = 0
 	method movimiento(){
@@ -562,6 +538,11 @@ object indicadorCombus{
 	method comprobarCombust() = game.onTick(100,"comprobC",{if(jugador.combust().between(700,1000)) image = "Assets/bidonVerde.png"
 						 else if(jugador.combust().between(400,699)) image = "Assets/bidonAmarillo.png"
 						 else image =  "Assets/bidonRojo.png"})
+
+						 
+	method combustGM() = game.onTick(100,"gameOC",{if(jugador.combust() <= 0) game.stop()})
+
+	
 	}
 	
 	object reloj {
@@ -583,3 +564,5 @@ object indicadorCombus{
 		game.onTick(8000,"meta",{if(self.tiempo() >= 1500)juego.victoria()})
 	}
 }
+
+
