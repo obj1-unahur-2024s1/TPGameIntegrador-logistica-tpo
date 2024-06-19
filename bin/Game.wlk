@@ -3,6 +3,32 @@ import Jugador.*
 
 
 object juego{
+	const listaAparicion = [(500),(1000),(5000),(7000),(10000),(10500)]
+	const listaAparicionN2 = [(500),(900),(3000),(5000),(8000),(10000)]
+	const autoER1 = new AutoEnemigo()
+	const autoER2 = new AutoEnemigo()
+	const autoER3 = new AutoEnemigo()
+	const autoER4 = new AutoEnemigo()
+	const autoER5 = new AutoEnemigo()
+	const autoER6 = new AutoEnemigo()
+	const autoER7 = new AutoEnemigo()
+	const autoA1 = new AutoEnemigoA()
+	const autoA2 = new AutoEnemigoA()
+	const autoA3 = new AutoEnemigoA()
+	const autoV = new AutoEnemigoV()
+	const autoV2 = new AutoEnemigoV()
+	const autoV3 = new AutoEnemigoV()
+	const autoV4 = new AutoEnemigoV()
+	const pod1 = new ObjetoObtenerPoder()
+	const pod2 = new ObjetoObtenerPoder()
+	const grieta1 = new Grieta()
+	const grieta2 = new Grieta()
+	const grieta3 = new Grieta()
+	const mancha1 = new ManchaDeCombustible()
+	const mancha2 = new ManchaDeCombustible()
+	const comb = new CargaCombust()
+	const comb2 = new CargaCombust()
+	
 	method iniciar(){
 		self.graficosBase()
 		self.seleccionDeDificultad()
@@ -63,6 +89,8 @@ object juego{
 	}
 	
 	
+	
+	
 	method controlesJugador(){
 		game.addVisual(jugador)
         keyboard.right().onPressDo({jugador.moverDerecha()})
@@ -88,34 +116,19 @@ object juego{
 		game.onCollideDo(jugador,{elem => elem.chocar() })
 	}
 	
+		method graficosIndicadores(){
+		game.addVisual(indicadorCombus)
+		jugador.gastarC()
+		indicadorCombus.comprobarCombust()
+		indicadorCombus.combustGM()
+		game.addVisual(reloj)
+		reloj.iniciar()
+		game.addVisual(indicadorPoder)
+		indicadorPoder.cambiarIMG()
+		barraPoder.cargarPoder()
+	}
 	
 	method obstaculosN2(){
-
-		const listaAparicionN2 = [(500),(900),(3000),(5000),(8000),(10000)]
-		
-		const autoER1 = new AutoEnemigo()
-		const autoER2 = new AutoEnemigo()
-		const autoER3 = new AutoEnemigo()
-		const autoER4 = new AutoEnemigo()
-		const autoER5 = new AutoEnemigo()
-		const autoER6 = new AutoEnemigo()
-		const autoER7 = new AutoEnemigo()
-		const autoA1 = new AutoEnemigoA()
-		const autoA2 = new AutoEnemigoA()
-		const autoA3 = new AutoEnemigoA()
-		const autoV = new AutoEnemigoV()
-		const autoV2 = new AutoEnemigoV()
-		const autoV3 = new AutoEnemigoV()
-		const autoV4 = new AutoEnemigoV()
-		const pod1 = new ObjetoObtenerPoder()
-		const pod2 = new ObjetoObtenerPoder()
-		const grieta1 = new Grieta()
-		const grieta2 = new Grieta()
-		const grieta3 = new Grieta()
-		const mancha1 = new ManchaDeCombustible()
-		const mancha2 = new ManchaDeCombustible()
-		const comb = new CargaCombust()
-		const comb2 = new CargaCombust()
 		
 		game.schedule(listaAparicionN2.anyOne(),{game.addVisual(autoER1)}) 
 		game.schedule(listaAparicionN2.anyOne(),{game.addVisual(autoER2)})
@@ -185,28 +198,6 @@ object juego{
 	}
 	method obstaculosN1(){
 
-		const listaAparicion = [(500),(1000),(5000),(7000),(10000),(10500)]
-		
-		const autoER1 = new AutoEnemigo()
-		const autoER2 = new AutoEnemigo()
-		const autoER3 = new AutoEnemigo()
-		const autoER4 = new AutoEnemigo()
-		const autoER5 = new AutoEnemigo()
-		const autoA1 = new AutoEnemigoA()
-		const autoA2 = new AutoEnemigoA()
-		const autoV = new AutoEnemigoV()
-		const autoV2 = new AutoEnemigoV()
-		const autoV3 = new AutoEnemigoV()
-		const pod1 = new ObjetoObtenerPoder()
-		const pod2 = new ObjetoObtenerPoder()
-		const grieta1 = new Grieta()
-		const grieta2 = new Grieta()
-		const grieta3 = new Grieta()
-		const mancha1 = new ManchaDeCombustible()
-		const mancha2 = new ManchaDeCombustible()
-		const comb = new CargaCombust()
-		const comb2 = new CargaCombust()
-		
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER1)}) 
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER2)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(autoER3)})
@@ -264,18 +255,7 @@ object juego{
 	
 	}
 
-	method graficosIndicadores(){
-		game.addVisual(indicadorCombus)
-		jugador.gastarC()
-		indicadorCombus.comprobarCombust()
-		indicadorCombus.combustGM()
-		game.addVisual(reloj)
-		reloj.iniciar()
-		game.addVisual(indicadorPoder)
-		indicadorPoder.cambiarIMG()
-		barraPoder.cargarPoder()
-	}
-	
+
 	method victoria(){ 
 		const l0 = new LineaDeMeta(position = game.at(2,12))
 		const l1 = new LineaDeMeta(position = game.at(3,12))
@@ -403,7 +383,8 @@ class AutoEnemigoV inherits SuperObstaculos{
 	}
 
 	
-	method cambiarPosV(){ // Priorizan moverse dos carriles, se suelen quedar en el mismo carril (a propósito)
+	method cambiarPosV(){ //Pregunta si la posicion y es mayor a 1 y pregunta s los bordes están libres, ya que prioriza estos bordes
+					 	  // para moverse, si no se queda quieto, es normal que se quede quieto en un carril mas fecuente que el Amarillo
 		if(position.y() > 1 and position.x().between(2,4) and game.getObjectsIn(position.right(2)).isEmpty() and game.getObjectsIn(position.right(4)).isEmpty())     position = position.right(movEspecial.anyOne()) 
 		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty() and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(movEspecial.anyOne())
 		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(4)
@@ -420,7 +401,8 @@ class AutoEnemigoA inherits SuperObstaculos{
 	}
 
 	
-	method cambiarPosA(){ // Priorizan moverse un carril y casi nunca se traban
+	method cambiarPosA(){ // Pregunta si la posicion 1 es mayor a 1 y la x entre un rango de carriles para moverse de una forma u otra
+						 // Prioriza moverse un carril si la posicion de al lado está vacía, se mueve consistentemente
 		if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(2)).isEmpty())position = position.right(2)
 		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty())position = position.left(2)
 		else if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(4)).isEmpty())position = position.right(4)
@@ -561,7 +543,7 @@ object indicadorCombus{
 		game.removeTickEvent("tiempo")
 	}
 	method meta(){
-		game.onTick(8000,"meta",{if(self.tiempo() >= 1500)juego.victoria()})
+		game.onTick(10000,"meta",{if(self.tiempo() >= 1500)juego.victoria()})
 	}
 }
 
