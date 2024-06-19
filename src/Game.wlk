@@ -116,7 +116,7 @@ object juego{
 		game.onCollideDo(jugador,{elem => elem.chocar() })
 	}
 	
-		method graficosIndicadores(){
+	method graficosIndicadores(){
 		game.addVisual(indicadorCombus)
 		jugador.gastarC()
 		indicadorCombus.comprobarCombust()
