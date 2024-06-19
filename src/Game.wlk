@@ -484,9 +484,9 @@ class LineaDeMeta{
 
 
 object barraPoder{
-	var property poder = 100
+	var property poder = 0
 	method iniciarPoder(){
-		poder = 100.min(poder + 1) //No funciona
+		poder = 100.min(poder + 1)
 	}
 	method cargarPoder(){
 		game.onTick(100,"cargarPoder",{self.iniciarPoder()})
