@@ -499,8 +499,6 @@ object barraPoder{
 object indicadorPoder{
 	const property position = game.at(14,5)
 	var property image = "Assets/poder0.png"
-					   
-	// Esto no cambia automaticamente
 	
 	method cambiarIMG() = game.onTick(100,"compr",{if(barraPoder.poder().between(0,49)) image = "Assets/poder0.png" 
 						else if(barraPoder.poder().between(50,99)) image = "Assets/poder50.png"
