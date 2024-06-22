@@ -2,12 +2,12 @@
 
 ## Equipo de desarrollo
 
-Braian Ezquiel Rios
-Brenda Lera
-Lucas Droege
-Victor Marquina
-Diego Primera
-Agustin Almandoz
+- Braian Ezquiel Rios
+- Brenda Lera
+- Lucas Droege
+- Victor Marquina
+- Diego Primera
+- Agustin Almandoz
 
 ## Capturas
 
