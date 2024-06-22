@@ -8,7 +8,7 @@
 
 ## Capturas
 
-(agregar)
+![JuegoPreview](https://github.com/obj1-unahur-2024s1/TPGameIntegrador-logistica-tpo/assets/132965139/23a9783c-1745-4caf-8fb6-d6dd500ba079)
 
 ## Reglas de Juego / Instrucciones
 
