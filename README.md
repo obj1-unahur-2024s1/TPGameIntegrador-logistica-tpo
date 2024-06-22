@@ -15,7 +15,8 @@
 
 ## Reglas de Juego / Instrucciones
 
-El auto del jugador se puede mover de forma horizontal utilizando la flecha izquierda y derecha del teclado. Además, el jugador tiene dos poderes especiales: al presionar la tecla 'Q', el jugador suma 1000 puntos a su puntuación, y al presionar la tecla 'W', se recarga el combustible del auto.
+El auto del jugador se puede mover horizontalmente utilizando las flecha izquierda y derecha del teclado. Además, el jugador tiene dos poderes especiales: Al presionar la tecla 'Q' el jugador se le suma una cantidad de puntos para acercarse mas rapido a la meta, y al presionar la tecla 'W' se recarga el combustible del auto. 
+El objetivo del juego es acumular puntos para llegar a la meta sin chocar con otros autos ni que se acabe el combustible.
 
 ## Otros
 
