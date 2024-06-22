@@ -1,10 +1,13 @@
-# Nombre del juego (<- borrar y completar)
+# Road Race Powered
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+Braian Ezquiel Rios
+Brenda Lera
+Lucas Droege
+Victor Marquina
+Diego Primera
+Agustin Almandoz
 
 ## Capturas
 
@@ -12,11 +15,10 @@
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
-
+El auto del jugador se puede mover de forma horizontal utilizando la flecha izquierda y derecha del teclado. Además, el jugador tiene dos poderes especiales: al presionar la tecla 'Q', el jugador suma 1000 puntos a su puntuación, y al presionar la tecla 'W', se recarga el combustible del auto.
 
 ## Otros
 
-- Curso/Facultad
-- VersiÃģn de wollok
+- Universidad Nacional de Hurlingham, Programación de objetos I. (Comision 2)
+- Version 3.0.0
 - Una vez terminado, no tenemos problemas en que el repositorio sea pÃšblico / queremos manternerlo privado
