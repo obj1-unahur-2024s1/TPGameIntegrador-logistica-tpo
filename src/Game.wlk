@@ -32,6 +32,7 @@ object juego{
 	method iniciar(){
 		self.graficosBase()
 		self.seleccionDeDificultad()
+		self.instrucciones()
 		self.pantalla_De_Inicio()
 		game.start()
 	}
@@ -41,7 +42,6 @@ object juego{
 		keyboard.z().onPressDo {
 			game.removeVisual(fondo1)
 			game.removeVisual(fondoZ)
-			
 		}
 	}
 	method seleccionDeDificultad(){
@@ -73,6 +73,12 @@ object juego{
 		reloj.meta()
 		
 	}
+	method instrucciones(){
+		game.addVisual(instrucciones)
+		keyboard.enter().onPressDo {
+			game.removeVisual(instrucciones)
+		}
+	}
 	
 	method nivel1(){
 		const m1 = game.sound("Audio/normalNivel1.mp3")
@@ -88,7 +94,7 @@ object juego{
 		m2.play()
 	}
 	
-	
+
 	
 	
 	method controlesJugador(){
@@ -316,6 +322,11 @@ object fondo2 {
 	var property image = "Assets/SeleccionDeNivel.jpg"
 	var property position = game.at(0,0)
 	}
+	
+object instrucciones {
+	var property image = "Assets/imagenDefinitiva.jpeg"
+	var property position = game.at(0,-1)
+}
 
 object fondoZ {
 	var property image = "Assets/pulseZ.png"
@@ -323,7 +334,7 @@ object fondoZ {
 	}
 
 object fondoN2{
-const property image = "Assets/FondoNivel2.jpg"
+const property image = "Assets/ultimoFondo.jpeg"
 	var property position = game.at(0,0)
 	var bucle = 0
 	method movimiento(){

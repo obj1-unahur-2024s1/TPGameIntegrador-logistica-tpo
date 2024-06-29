@@ -32,6 +32,7 @@ object juego{
 	method iniciar(){
 		self.graficosBase()
 		self.seleccionDeDificultad()
+		self.instrucciones()
 		self.pantalla_De_Inicio()
 		game.start()
 	}
@@ -41,7 +42,6 @@ object juego{
 		keyboard.z().onPressDo {
 			game.removeVisual(fondo1)
 			game.removeVisual(fondoZ)
-			
 		}
 	}
 	method seleccionDeDificultad(){
@@ -73,6 +73,12 @@ object juego{
 		reloj.meta()
 		
 	}
+	method instrucciones(){
+		game.addVisual(instrucciones)
+		keyboard.enter().onPressDo {
+			game.removeVisual(instrucciones)
+		}
+	}
 	
 	method nivel1(){
 		const m1 = game.sound("Audio/normalNivel1.mp3")
@@ -88,7 +94,7 @@ object juego{
 		m2.play()
 	}
 	
-	
+
 	
 	
 	method controlesJugador(){
@@ -116,7 +122,7 @@ object juego{
 		game.onCollideDo(jugador,{elem => elem.chocar() })
 	}
 	
-		method graficosIndicadores(){
+	method graficosIndicadores(){
 		game.addVisual(indicadorCombus)
 		jugador.gastarC()
 		indicadorCombus.comprobarCombust()
@@ -316,6 +322,11 @@ object fondo2 {
 	var property image = "Assets/SeleccionDeNivel.jpg"
 	var property position = game.at(0,0)
 	}
+	
+object instrucciones {
+	var property image = "Assets/imagenDefinitiva.jpeg"
+	var property position = game.at(0,-1)
+}
 
 object fondoZ {
 	var property image = "Assets/pulseZ.png"
@@ -323,7 +334,7 @@ object fondoZ {
 	}
 
 object fondoN2{
-const property image = "Assets/FondoNivel2.jpg"
+const property image = "Assets/ultimoFondo.jpeg"
 	var property position = game.at(0,0)
 	var bucle = 0
 	method movimiento(){
@@ -484,9 +495,9 @@ class LineaDeMeta{
 
 
 object barraPoder{
-	var property poder = 100
+	var property poder = 0
 	method iniciarPoder(){
-		poder = 100.min(poder + 1) //No funciona
+		poder = 100.min(poder + 1)
 	}
 	method cargarPoder(){
 		game.onTick(100,"cargarPoder",{self.iniciarPoder()})
@@ -499,8 +510,6 @@ object barraPoder{
 object indicadorPoder{
 	const property position = game.at(14,5)
 	var property image = "Assets/poder0.png"
-					   
-	// Esto no cambia automaticamente
 	
 	method cambiarIMG() = game.onTick(100,"compr",{if(barraPoder.poder().between(0,49)) image = "Assets/poder0.png" 
 						else if(barraPoder.poder().between(50,99)) image = "Assets/poder50.png"
