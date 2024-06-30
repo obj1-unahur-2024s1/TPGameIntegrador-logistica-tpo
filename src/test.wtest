@@ -1,0 +1,29 @@
+import Jugador.*
+import Game.*
+
+describe "algunos test del jugador"{
+	const grieta = new Grieta()
+	const manchaCombust = new ManchaDeCombustible()
+	const combust = new CargaCombust()
+	
+	test "jugador combustible inicial"{
+		assert.equals(1000, jugador.combust())
+	}
+	test "el jugador al andar disminuye su combustible"{
+		jugador.andar()
+		assert.equals(980, jugador.combust())
+	}
+	test "el jugador pasa una grieta"{
+		grieta.chocar()
+		assert.equals(650, jugador.combust())
+	}
+	test "el jugador pisa una mancha de combustible"{
+		manchaCombust.chocar()
+		assert.equals(800, jugador.combust())
+	}
+	test "el jugador obtiene un bidon de combustible"{
+		jugador.combust(100)
+		combust.chocar()
+		assert.equals(900, jugador.combust())
+	}
+}

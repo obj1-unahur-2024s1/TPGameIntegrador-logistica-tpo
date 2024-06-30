@@ -21,7 +21,7 @@ object jugador{
 	
 
 	method andar(){
-		combust = combust - 10
+		combust = combust - 20
 	}
 	method gastarC(){
 		game.onTick(1000,"g",{self.andar()})
@@ -45,8 +45,8 @@ object poderCombust{
 object poderPuntos{
 
 	method activar(){
-		const sumarPuntos = reloj.tiempo() + 500
+		const sumarPuntos = reloj.tiempo() + 400
 		reloj.tiempo(sumarPuntos)
-		game.say(jugador, "¡¡Consegui varios puntos!!")
+		game.say(jugador, "¡¡Estoy mas cerca de la meta!!")
 	}
 }

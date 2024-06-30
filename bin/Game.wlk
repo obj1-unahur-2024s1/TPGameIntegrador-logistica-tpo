@@ -33,7 +33,7 @@ object juego{
 		self.graficosBase()
 		self.seleccionDeDificultad()
 		self.instrucciones()
-		self.pantalla_De_Inicio()
+		self.pantalla_De_Inicio()	
 		game.start()
 	}
 	method pantalla_De_Inicio(){
@@ -75,7 +75,7 @@ object juego{
 	}
 	method instrucciones(){
 		game.addVisual(instrucciones)
-		keyboard.enter().onPressDo {
+		keyboard.x().onPressDo {
 			game.removeVisual(instrucciones)
 		}
 	}
@@ -106,8 +106,7 @@ object juego{
 		keyboard.q().onPressDo({if (barraPoder.poder() == 100){
 			poderPuntos.activar()
 			barraPoder.reset()
-			game.say(jugador, "¡¡Consegui varios puntos!!"
-			)}else{
+			}else{
 				game.say(jugador,"No tengo el poder suficiente!")
 			}
 		})
@@ -324,8 +323,8 @@ object fondo2 {
 	}
 	
 object instrucciones {
-	var property image = "Assets/imagenDefinitiva.jpeg"
-	var property position = game.at(0,-1)
+	var property image = "Assets/Instrucciones.jpg"
+	var property position = game.at(0,0)
 }
 
 object fondoZ {
@@ -552,7 +551,7 @@ object indicadorCombus{
 		game.removeTickEvent("tiempo")
 	}
 	method meta(){
-		game.onTick(10000,"meta",{if(self.tiempo() >= 1500)juego.victoria()})
+		game.onTick(10000,"meta",{if(self.tiempo() >= 2000)juego.victoria()})
 	}
 }
 
