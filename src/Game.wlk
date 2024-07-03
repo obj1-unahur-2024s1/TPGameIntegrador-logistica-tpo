@@ -192,11 +192,11 @@ object juego{
 								mancha2.moverObstaculos()}) 						
 	
 		game.onTick(1300,"moveV",{autoV.cambiarPosEspecial()
-									autoV2.cambiarPosEspecial()
-									autoV3.cambiarPosEspecial()})
+					autoV2.cambiarPosEspecial()
+					autoV3.cambiarPosEspecial()})
 									
 		game.onTick(1300,"moveA",{autoA1.cambiarPosEspecial()
-								autoA2.cambiarPosEspecial()})
+					  autoA2.cambiarPosEspecial()})
 	
 	}
 	method obstaculosN1(){
@@ -231,30 +231,30 @@ object juego{
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(mancha2)})
 
 		game.onTick(1500, "mov", {autoER1.moverObstaculos()
-								autoER2.moverObstaculos()
-								autoER3.moverObstaculos()
-								autoER4.moverObstaculos()
-								autoER5.moverObstaculos()
-								autoA1.moverObstaculos()
-								autoA2.moverObstaculos()
-								autoV.moverObstaculos()
-								autoV2.moverObstaculos()
-								autoV3.moverObstaculos()
-								comb.moverObstaculos()
-								comb2.moverObstaculos()
-								pod1.moverObstaculos()
-								pod2.moverObstaculos()
-								grieta1.moverObstaculos()
-								grieta2.moverObstaculos()
-								mancha1.moverObstaculos()
-								mancha2.moverObstaculos()}) 						
+					 autoER2.moverObstaculos()
+					autoER3.moverObstaculos()
+					autoER4.moverObstaculos()
+					autoER5.moverObstaculos()
+					autoA1.moverObstaculos()
+					autoA2.moverObstaculos()
+					autoV.moverObstaculos()
+					autoV2.moverObstaculos()
+					autoV3.moverObstaculos()
+					comb.moverObstaculos()
+					comb2.moverObstaculos()
+					pod1.moverObstaculos()
+					pod2.moverObstaculos()
+					grieta1.moverObstaculos()
+					grieta2.moverObstaculos()
+					mancha1.moverObstaculos()
+					mancha2.moverObstaculos()}) 						
 	
 		game.onTick(1500,"moveV",{autoV.cambiarPosEspecial()
-									autoV2.cambiarPosEspecial()
-									autoV3.cambiarPosEspecial()})
+					autoV2.cambiarPosEspecial()
+					autoV3.cambiarPosEspecial()})
 									
 		game.onTick(1500,"moveA",{autoA1.cambiarPosEspecial()
-									autoA2.cambiarPosEspecial()})
+					autoA2.cambiarPosEspecial()})
 	
 	}
 
@@ -290,7 +290,6 @@ object juego{
 		game.onTick(700,"moverV",{if(game.hasVisual(l7))l7.mover()})
 		game.onTick(700,"moverV",{if(game.hasVisual(l8))l8.mover()})
 		game.onTick(700,"moverV",{if(game.hasVisual(l9))l9.mover()})
-
 		}
 }
 
