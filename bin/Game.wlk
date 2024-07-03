@@ -124,12 +124,10 @@ object juego{
 	method graficosIndicadores(){
 		game.addVisual(indicadorCombus)
 		jugador.gastarC()
-		indicadorCombus.comprobarCombust()
 		indicadorCombus.combustGM()
 		game.addVisual(reloj)
 		reloj.iniciar()
-		game.addVisual(indicadorPoder)
-		indicadorPoder.cambiarIMG()
+		game.addVisual(barraPoder)
 		barraPoder.cargarPoder()
 	}
 	
@@ -167,38 +165,38 @@ object juego{
 		game.schedule(listaAparicionN2.anyOne(),{game.addVisual(mancha1)})
 		game.schedule(listaAparicionN2.anyOne(),{game.addVisual(mancha2)})
 
-		game.onTick(700, "mov", {if(game.hasVisual(autoER1))autoER1.moverObstaculos()
-								if(game.hasVisual(autoER2))autoER2.moverObstaculos()
-								if(game.hasVisual(autoER3))autoER3.moverObstaculos()
-								if(game.hasVisual(autoER4))autoER4.moverObstaculos()
-								if(game.hasVisual(autoER5))autoER5.moverObstaculos()
-								if(game.hasVisual(autoER6))autoER6.moverObstaculos()
-								if(game.hasVisual(autoER7))autoER7.moverObstaculos()
+		game.onTick(700, "mov", {autoER1.moverObstaculos()
+								autoER2.moverObstaculos()
+								autoER3.moverObstaculos()
+								autoER4.moverObstaculos()
+								autoER5.moverObstaculos()
+								autoER6.moverObstaculos()
+								autoER7.moverObstaculos()
 								
-								if(game.hasVisual(autoA1))autoA1.moverObstaculos()
-								if(game.hasVisual(autoA2))autoA2.moverObstaculos()
-								if(game.hasVisual(autoA3))autoA3.moverObstaculos()
+								autoA1.moverObstaculos()
+								autoA2.moverObstaculos()
+								autoA3.moverObstaculos()
 								
-								if(game.hasVisual(autoV))autoV.moverObstaculos()
-								if(game.hasVisual(autoV2))autoV2.moverObstaculos()
-								if(game.hasVisual(autoV3))autoV3.moverObstaculos()
-								if(game.hasVisual(autoV4))autoV4.moverObstaculos()
+								autoV.moverObstaculos()
+								autoV2.moverObstaculos()
+								autoV3.moverObstaculos()
+								autoV4.moverObstaculos()
 								
-								if(game.hasVisual(comb))comb.moverObstaculos()
-								if(game.hasVisual(comb2))comb2.moverObstaculos()
-								if(game.hasVisual(pod1))pod1.moverObstaculos()
-								if(game.hasVisual(pod2))pod2.moverObstaculos()
-								if(game.hasVisual(grieta1))grieta1.moverObstaculos()
-								if(game.hasVisual(grieta2))grieta2.moverObstaculos()
-								if(game.hasVisual(mancha1))mancha1.moverObstaculos()
-								if(game.hasVisual(mancha2))mancha2.moverObstaculos()}) 						
+								comb.moverObstaculos()
+								comb2.moverObstaculos()
+								pod1.moverObstaculos()
+								pod2.moverObstaculos()
+								grieta1.moverObstaculos()
+								grieta2.moverObstaculos()
+								mancha1.moverObstaculos()
+								mancha2.moverObstaculos()}) 						
 	
-		game.onTick(1300,"moveV",{if(game.hasVisual(autoV))autoV.cambiarPosV()
-									if(game.hasVisual(autoV2))autoV2.cambiarPosV()
-									if(game.hasVisual(autoV3))autoV3.cambiarPosV()})
+		game.onTick(1300,"moveV",{autoV.cambiarPosEspecial()
+									autoV2.cambiarPosEspecial()
+									autoV3.cambiarPosEspecial()})
 									
-		game.onTick(1300,"moveA",{if(game.hasVisual(autoA1))autoA1.cambiarPosA()
-									if(game.hasVisual(autoA2))autoA2.cambiarPosA()})
+		game.onTick(1300,"moveA",{autoA1.cambiarPosEspecial()
+								autoA2.cambiarPosEspecial()})
 	
 	}
 	method obstaculosN1(){
@@ -232,31 +230,31 @@ object juego{
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(mancha1)})
 		game.schedule(listaAparicion.anyOne(),{game.addVisual(mancha2)})
 
-		game.onTick(1500, "mov", {if(game.hasVisual(autoER1))autoER1.moverObstaculos()
-								if(game.hasVisual(autoER2))autoER2.moverObstaculos()
-								if(game.hasVisual(autoER3))autoER3.moverObstaculos()
-								if(game.hasVisual(autoER4))autoER4.moverObstaculos()
-								if(game.hasVisual(autoER5))autoER5.moverObstaculos()
-								if(game.hasVisual(autoA1))autoA1.moverObstaculos()
-								if(game.hasVisual(autoA2))autoA2.moverObstaculos()
-								if(game.hasVisual(autoV))autoV.moverObstaculos()
-								if(game.hasVisual(autoV2))autoV2.moverObstaculos()
-								if(game.hasVisual(autoV3))autoV3.moverObstaculos()
-								if(game.hasVisual(comb))comb.moverObstaculos()
-								if(game.hasVisual(comb2))comb2.moverObstaculos()
-								if(game.hasVisual(pod1))pod1.moverObstaculos()
-								if(game.hasVisual(pod2))pod2.moverObstaculos()
-								if(game.hasVisual(grieta1))grieta1.moverObstaculos()
-								if(game.hasVisual(grieta2))grieta2.moverObstaculos()
-								if(game.hasVisual(mancha1))mancha1.moverObstaculos()
-								if(game.hasVisual(mancha2))mancha2.moverObstaculos()}) 						
+		game.onTick(1500, "mov", {autoER1.moverObstaculos()
+								autoER2.moverObstaculos()
+								autoER3.moverObstaculos()
+								autoER4.moverObstaculos()
+								autoER5.moverObstaculos()
+								autoA1.moverObstaculos()
+								autoA2.moverObstaculos()
+								autoV.moverObstaculos()
+								autoV2.moverObstaculos()
+								autoV3.moverObstaculos()
+								comb.moverObstaculos()
+								comb2.moverObstaculos()
+								pod1.moverObstaculos()
+								pod2.moverObstaculos()
+								grieta1.moverObstaculos()
+								grieta2.moverObstaculos()
+								mancha1.moverObstaculos()
+								mancha2.moverObstaculos()}) 						
 	
-		game.onTick(1500,"moveV",{if(game.hasVisual(autoV))autoV.cambiarPosV()
-									if(game.hasVisual(autoV2))autoV2.cambiarPosV()
-									if(game.hasVisual(autoV3))autoV3.cambiarPosV()})
+		game.onTick(1500,"moveV",{autoV.cambiarPosEspecial()
+									autoV2.cambiarPosEspecial()
+									autoV3.cambiarPosEspecial()})
 									
-		game.onTick(1500,"moveA",{if(game.hasVisual(autoA1))autoA1.cambiarPosA()
-									if(game.hasVisual(autoA2))autoA2.cambiarPosA()})
+		game.onTick(1500,"moveA",{autoA1.cambiarPosEspecial()
+									autoA2.cambiarPosEspecial()})
 	
 	}
 
@@ -352,12 +350,14 @@ class SuperObstaculos {
 	const property movEspecial = [ 2 , 4]
 	
 
-	
+	//Los autos aparecen y desaparecen en posiciones diferentes, para generar mas aleatoriedad, y disminuir la probabilidad
+	//de que se generen todos uno al lado del otro
 	
 	var property position = listaPosiciones.anyOne()
 	
 	
 	method moverObstaculos(){
+		if(game.hasVisual(self))
 		position = position.down(1)
 		if(position.y() <= listaReinicio.anyOne()) {position = listaPosiciones.anyOne() // Si la posicion del obstaculo es igual o menor a alguna al azar de la lista																  // Vuelve a una posición inicial aleatoria
 		}
@@ -370,6 +370,13 @@ class SuperObstaculos {
 	method serImpactado(){
 		position = listaPosiciones.anyOne()
 	}
+	method cambiarPosEspecial(){}
+	
+	method posYMayor1andXentre(pos1,pos2) = position.y() > 1 and position.x().between(pos1,pos2) //preparación de cambiar posicion
+	method posYmayor1andX6() = position.y() > 1 and position.x() == 6
+	method comprobarPosVaciaDerecha(posObt1) =  game.getObjectsIn(position.right(posObt1)).isEmpty()
+	
+	method comprobarPosVaciaIzquierda(posObt1) = game.getObjectsIn(position.left(posObt1)).isEmpty()
 }
 
 class AutoEnemigo inherits SuperObstaculos {
@@ -380,7 +387,6 @@ class AutoEnemigo inherits SuperObstaculos {
 		game.stop()
 
 	}
-
 	
 }
 
@@ -391,14 +397,13 @@ class AutoEnemigoV inherits SuperObstaculos{
 		game.stop()
 
 	}
-
 	
-	method cambiarPosV(){ //Pregunta si la posicion y es mayor a 1 y pregunta s los bordes están libres, ya que prioriza estos bordes
+	override method cambiarPosEspecial(){ //Pregunta si la posicion y es mayor a 1 y pregunta s los bordes están libres, ya que prioriza estos bordes
 					 	  // para moverse, si no se queda quieto, es normal que se quede quieto en un carril mas fecuente que el Amarillo
-		if(position.y() > 1 and position.x().between(2,4) and game.getObjectsIn(position.right(2)).isEmpty() and game.getObjectsIn(position.right(4)).isEmpty())     position = position.right(movEspecial.anyOne()) 
-		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty() and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(movEspecial.anyOne())
-		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.left(4)).isEmpty()) position = position.left(4)
-		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(4)).isEmpty()) position = position.right(4)
+		if(game.hasVisual(self) and self.posYMayor1andXentre(2,4) and self.comprobarPosVaciaDerecha(2) and self.comprobarPosVaciaDerecha(4))  position = position.right(movEspecial.anyOne()) 
+		else if(game.hasVisual(self) and self.posYMayor1andXentre(8,10) and self.comprobarPosVaciaIzquierda(2) and self.comprobarPosVaciaIzquierda(4)) position = position.left(movEspecial.anyOne())
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaIzquierda(4)) position = position.left(4)
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaDerecha(4)) position = position.right(4)
 		}
 	}
 
@@ -410,23 +415,20 @@ class AutoEnemigoA inherits SuperObstaculos{
 
 	}
 
-	
-	method cambiarPosA(){ // Pregunta si la posicion 1 es mayor a 1 y la x entre un rango de carriles para moverse de una forma u otra
+
+	override method cambiarPosEspecial(){ // Pregunta si la posicion 1 es mayor a 1 y la x entre un rango de carriles para moverse de una forma u otra
 						 // Prioriza moverse un carril si la posicion de al lado está vacía, se mueve consistentemente
-		if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(2)).isEmpty())position = position.right(2)
-		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(2)).isEmpty())position = position.left(2)
-		else if(position.y() > 1 and position.x().between(2,6) and game.getObjectsIn(position.right(4)).isEmpty())position = position.right(4)
-		else if(position.y() > 1 and position.x().between(8,10) and game.getObjectsIn(position.left(4)).isEmpty())position = position.left(4)
-		else if(position.y() > 1 and position.x() == 6 and (game.getObjectsIn(position.left(4)).isEmpty())) position = position.left(4)
-		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(4)).isEmpty()) position = position.right(4)
-		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.left(2)).isEmpty()) position = position.left(2)
-		else if(position.y() > 1 and position.x() == 6 and game.getObjectsIn(position.right(2)).isEmpty()) position = position.right(2)
+		if(game.hasVisual(self) and self.posYMayor1andXentre(2,6) and self.comprobarPosVaciaDerecha(2))position = position.right(2)
+		else if(game.hasVisual(self) and self.posYMayor1andXentre(8,10) and self.comprobarPosVaciaIzquierda(2))position = position.left(2)
+		else if(game.hasVisual(self) and self.posYMayor1andXentre(2,6) and self.comprobarPosVaciaDerecha(4))position = position.right(4)
+		else if(game.hasVisual(self) and self.posYMayor1andXentre(8,10) and self.comprobarPosVaciaIzquierda(4))position = position.left(4)
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaIzquierda(4)) position = position.left(4)
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaDerecha(4)) position = position.right(4)
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaIzquierda(2)) position = position.left(2)
+		else if(game.hasVisual(self) and self.posYmayor1andX6() and self.comprobarPosVaciaDerecha(2)) position = position.right(2)
 		}
 	}
 		
-
-	
-
 
 class Grieta inherits SuperObstaculos{
 
@@ -495,26 +497,30 @@ class LineaDeMeta{
 
 object barraPoder{
 	var property poder = 0
+	
+	
+					    
+	const property position = game.at(14,5)
+	
+	method image() = if(self.poder().between(0,49)) "Assets/poder0.png" 
+						else if(self.poder().between(50,99))"Assets/poder50.png"
+					    else "Assets/poder100.png"
+	
 	method iniciarPoder(){
 		poder = 100.min(poder + 1)
 	}
+	
+					    
 	method cargarPoder(){
 		game.onTick(100,"cargarPoder",{self.iniciarPoder()})
 	}
 	method reset() {
 		poder = 0
 	}
+	
+	
 }
 
-object indicadorPoder{
-	const property position = game.at(14,5)
-	var property image = "Assets/poder0.png"
-	
-	method cambiarIMG() = game.onTick(100,"compr",{if(barraPoder.poder().between(0,49)) image = "Assets/poder0.png" 
-						else if(barraPoder.poder().between(50,99)) image = "Assets/poder50.png"
-					    else image = "Assets/poder100.png"})
-					    
-	}
 					    
 	
 	
@@ -522,13 +528,12 @@ object indicadorPoder{
 object indicadorCombus{
 	
 	const property position = game.at(15,2)
-	var property image = "Assets/bidonVerde.png"
-						 
 	
-	method comprobarCombust() = game.onTick(100,"comprobC",{if(jugador.combust().between(700,1000)) image = "Assets/bidonVerde.png"
-						 else if(jugador.combust().between(400,699)) image = "Assets/bidonAmarillo.png"
-						 else image =  "Assets/bidonRojo.png"})
-
+	
+	method image() = if(jugador.combust().between(700,1000))"Assets/bidonVerde.png"
+						 else if(jugador.combust().between(400,699)) "Assets/bidonAmarillo.png"
+						 else "Assets/bidonRojo.png"
+						 
 						 
 	method combustGM() = game.onTick(100,"gameOC",{if(jugador.combust() <= 0) game.stop()})
 
@@ -551,7 +556,7 @@ object indicadorCombus{
 		game.removeTickEvent("tiempo")
 	}
 	method meta(){
-		game.onTick(10000,"meta",{if(self.tiempo() >= 2000)juego.victoria()})
+		game.onTick(10000,"meta",{if(self.tiempo() >= 2000)juego.victoria()})// El ontick es para que no siempre empiece en los 1500, que haya mas aleatoriedad
 	}
 }
 
