@@ -166,30 +166,30 @@ object juego{
 		game.schedule(listaAparicionN2.anyOne(),{game.addVisual(mancha2)})
 
 		game.onTick(700, "mov", {autoER1.moverObstaculos()
-								autoER2.moverObstaculos()
-								autoER3.moverObstaculos()
-								autoER4.moverObstaculos()
-								autoER5.moverObstaculos()
-								autoER6.moverObstaculos()
-								autoER7.moverObstaculos()
+					autoER2.moverObstaculos()
+					 autoER3.moverObstaculos()
+					autoER4.moverObstaculos()
+					autoER5.moverObstaculos()
+					autoER6.moverObstaculos()
+					autoER7.moverObstaculos()
 								
-								autoA1.moverObstaculos()
-								autoA2.moverObstaculos()
-								autoA3.moverObstaculos()
+					autoA1.moverObstaculos()
+					autoA2.moverObstaculos()
+					autoA3.moverObstaculos()
 								
-								autoV.moverObstaculos()
-								autoV2.moverObstaculos()
-								autoV3.moverObstaculos()
-								autoV4.moverObstaculos()
+					autoV.moverObstaculos()
+					autoV2.moverObstaculos()
+					autoV3.moverObstaculos()
+					autoV4.moverObstaculos()
 								
-								comb.moverObstaculos()
-								comb2.moverObstaculos()
-								pod1.moverObstaculos()
-								pod2.moverObstaculos()
-								grieta1.moverObstaculos()
-								grieta2.moverObstaculos()
-								mancha1.moverObstaculos()
-								mancha2.moverObstaculos()}) 						
+					comb.moverObstaculos()
+					comb2.moverObstaculos()
+					pod1.moverObstaculos()
+					pod2.moverObstaculos()
+					grieta1.moverObstaculos()
+					grieta2.moverObstaculos()
+					mancha1.moverObstaculos()
+					mancha2.moverObstaculos()}) 						
 	
 		game.onTick(1300,"moveV",{autoV.cambiarPosEspecial()
 					autoV2.cambiarPosEspecial()
@@ -380,7 +380,7 @@ class SuperObstaculos {
 
 class AutoEnemigo inherits SuperObstaculos {
 
-	var property image = "Assets/enemRojo.png"
+	var property image = "Assets/EnemRojo.png"
 	
 	override method chocar(){
 		game.stop()
